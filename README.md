@@ -1,18 +1,13 @@
-## LUXIMED
+## BOOK-SHELF
 
-University project for ISI.
+Web service for searching, rating and recommending books
 
 Services and their ports:
 
 | **SERVICE**         | **PORT** |
 |---------------------|----------|
 | front-service       | 8181     |
-| client-service      | 8081     |
-| reservation-service | 8082     |
+| rest-call-service   | 8081     |
 | database-service    | 8083     |
 | discovery-server    | 8761     |
-| identity-service    | 9090     |
 | gateway             | 8080     |
-
-Endpoints are exposed on swagger
-http://localhost:8083/swagger-ui.html
