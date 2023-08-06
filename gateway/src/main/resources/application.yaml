@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: database-service
+          uri: lb://DATABASE-SERVICE
+          predicates:
+            - Path=/api/database/**
+
+        - id: front-service
+          uri: lb://FRONT-SERVICE
+          predicates:
+            - Path=/**

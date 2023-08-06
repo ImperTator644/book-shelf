@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+        <title id="pageTitle">Luximed main page</title>
+    </head>
+    <body>
+        <div class="container">
+
+            <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+            <h1>MAIN PAGE</h1>
+            <h2>Witaj, <span th:text="${@thymeleaf.getCurrentUserPesel()}"></span></h2>
+
+        </div>
+    </body>
+</html>

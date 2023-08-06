@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+        <title>Calendar</title>
+        <link href="http://cdn.jsdelivr.net/webjars/fullcalendar/2.2.5/fullcalendar.css"
+              th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.css}"
+              rel="stylesheet"></link>
+        <link href="http://cdn.jsdelivr.net/webjars/fullcalendar/2.2.5/fullcalendar.print.css"
+              th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.print.css}"
+              rel="stylesheet" media="print"></link>
+
+
+        <script src="http://cdn.jsdelivr.net/webjars/jquery/2.9.0/jquery.min.js"
+                th:src="@{/webjars/momentjs/2.9.0/min/moment.min.js}"
+                type="text/javascript"></script>
+        <script src="http://cdn.jsdelivr.net/webjars/jquery/3.4.1/jquery.min.js"
+                th:src="@{/webjars/jquery/3.4.1/jquery.min.js}" type="text/javascript"></script>
+        <script src="http://cdn.jsdelivr.net/webjars/fullcalendar/2.2.5/fullcalendar.min.js"
+                th:src="@{/webjars/fullcalendar/2.2.5/fullcalendar.min.js}"
+                type="text/javascript"></script>
+
+
+        <link rel="stylesheet"
+              href="http//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"
+              th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}"/>
+        <script
+                src="http//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"
+                th:src="@{/webjars/jquery-u i/1.12.1/jquery-ui.js}"
+                type="text/javascript"></script>
+
+
+        <!--    <link rel="stylesheet" th:href="@{/calendar.css}">-->
+        <style>
+            body {
+                font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+                font-size: 14px;
+            }
+
+            #calendar {
+                max-width: 1000px;
+                margin: 40px auto;
+                padding: 0 10px;
+            }
+
+            .fc-event{
+                background-color: #0099FF;
+                cursor: pointer;
+                border-color: #0099FF;
+                border-radius: 4px;
+                color: black;
+            }
+            .fc-unthemed th,
+            .fc-unthemed td,
+            .fc-unthemed hr,
+            .fc-unthemed thead,
+            .fc-unthemed tbody,
+            .fc-unthemed .fc-row,
+            .fc-unthemed .fc-popover {
+                border-color: rgb(20, 20, 20);
+            }
+
+            .fc-unthemed .fc-popover {
+                border-width: 1px;
+                border-style: solid;
+                background-color: #00B2FF;
+                border-radius: 8px;
+            }
+
+            .fc-popover {
+                position: absolute;
+                box-shadow: 0 4px 8px rgba(0,0,0,.15);
+            }
+
+            .fc-unthemed .fc-popover .fc-header{
+                font-size: 15px;
+                margin-top: 4px;
+                background-color: #00B2FF;
+            }
+
+
+            .fc-unthemed .fc-today {
+                background:  rgb(111, 173, 247);
+            }
+
+            #user-info{
+                text-align: center;
+                margin: 10% 10%;
+                background-color: #00B2FF;
+                border-radius: 16px;
+                padding: 1%;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+            <div id="user-info">
+                <h1><b>Kalendarz Wizyt</b></h1>
+            <div id='calendar'></div>
+            </div>
+
+            <script>
+                $(function () {
+
+                    function displayinfo(event, elements) {
+                        var name = event.title;
+                        console.log(name);
+                        var appointmentStart = moment(event.start).format("YYYY-MM-DD HH:mm:ss")
+                        alert(name + "  " + appointmentStart)
+                    }
+
+                    $(document).ready(async function () {
+                        let url = '/appointment/';
+                        let patient_pesel = '[[${pesel}]]';
+                        if (patient_pesel !== "") {
+                            url = '/appointment/patient/';
+                        }else
+                            patient_pesel = 'all';
+                        url = url.concat(patient_pesel);
+                        console.log(patient_pesel);
+                        console.log(url);
+                        $('#calendar').fullCalendar({
+                            lang: 'pl',
+                            header: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'month,agendaWeek,agendaDay'
+                            },
+                            defaultDate: moment().format("YYYY-MM-DD"),
+                            editable: false,
+                            eventLimit: true,
+                            events: {
+                                url: url,
+                                error: function () {
+                                    alert('there was an error while fetching events!');
+                                }
+                            },
+                            selectable: true,
+                            selectHelper: true,
+                            loading: function (bool) {
+                                $('#loading').toggle(bool);
+                            },
+                            eventClick: function (event, element) {
+                                displayinfo(event, element);
+                            },
+                        });
+                    });
+                });
+            </script>
+        </div>
+    </body>
+</html>
+

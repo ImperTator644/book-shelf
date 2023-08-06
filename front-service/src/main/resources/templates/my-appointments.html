@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+  <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+  <title>Find doctor</title>
+</head>
+<body>
+<div class="container">
+  <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+
+  <div id="doctorsList" class="p-2">
+    <div class="accordion" id="accordionExample">
+
+      <div th:each="appointment: ${myAppointments}" class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button th:text="*{appointment.getAppointmentType().getName() + ' ' + appointment.getDate()}" class="btn btn-link btn-block text-left" data-toggle="collapse" th:data-target="'#collapseOne' + *{appointment.getId()}" aria-expanded="false" aria-controls="collapseOne">
+            </button>
+          </h2>
+        </div>
+
+        <div th:id="'collapseOne' + *{appointment.getId()}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body text-center">
+            <label class="col-lg control-label"><b>Doctor</b></label>
+            <div class="col-lg mb-2">
+              <input class="col-lg text-center" disabled th:placeholder="*{appointment.getDoctor().getPersonalData().getName() + ' ' + appointment.getDoctor().getPersonalData().getSurname()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Address</b></label>
+            <div class="col-lg mb-2">
+              <input class="col-lg text-center" disabled th:placeholder="*{appointment.getClinic().getStreet() + ' ' + appointment.getClinic().getBuildingNumber()}">
+            </div>
+
+            <label class="col-lg control-label"><b>City</b></label>
+            <div class="col-lg mb-2">
+              <input class="col-lg text-center" disabled th:placeholder="*{appointment.getClinic().getCity()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Date</b></label>
+            <div class="col-lg mb-2">
+              <input class="col-lg text-center" disabled th:placeholder="*{appointment.getDate() + ' ' + appointment.getTime()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Appointment Type</b></label>
+            <div class="col-lg mb-2">
+              <input class="col-md text-center" disabled th:placeholder="*{appointment.getAppointmentType().getName()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Appointment description</b></label>
+            <div class="col-lg mb-2">
+              <input class="col-lg text-center" disabled th:placeholder="*{appointment.getAppointmentType().getDescription()}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

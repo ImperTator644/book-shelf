@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+    <title>Find doctor</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+
+    <div class="m-2 text-center">
+        <legend>Find doctor</legend>
+        <form th:method="get" th:action="@{/find-doctors/by}">
+            City: <input type="text" name="city"/>
+            Specialization: <input type="text" name="specialization"/>
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
+
+    <div id="doctorsList" class="p-2">
+        <div class="accordion" id="accordionExample">
+            <div th:each="doctor: ${doctors}" class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button th:text="*{doctor.getPersonalData().getName() + ' ' + doctor.getPersonalData().getSurname()}" class="btn btn-link btn-block text-left" data-toggle="collapse" th:data-target="'#collapseOne' + *{doctor.getId()}" aria-expanded="false" aria-controls="collapseOne">
+                        </button>
+                    </h2>
+                </div>
+
+                <div th:id="'collapseOne' + *{doctor.getId()}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                            <form th:action="@{/appointment/add}" th:method="POST">
+                                <input class=mr-4 type="date" name="date" th:min="${now}">
+                                <input class=mr-4 type="time" name="dateTime" min="07:00" max="19:00">
+                                <select name="appointmentTypeId" class="form-select mr-4" aria-label="Default select example">
+                                    <option selected disabled>Select appointment type</option>
+                                    <div th:each="appointmentType: ${appointmentTypes}">
+                                    <option th:value="*{appointmentType.getId()}" th:text="*{appointmentType.getName()}"></option>
+                                    </div>
+                                </select>
+                                <select name="clinicId" class="form-select mr-4" aria-label="Default select example">
+                                    <option  selected disabled>Select clinic</option>
+                                    <div th:each="clinic: ${doctor.getClinics()}">
+                                        <option th:value="*{clinic.getId()}" th:text="*{clinic.getStreet() + ' ' + clinic.getBuildingNumber()}"></option>
+                                    </div>
+                                </select>
+                                <input type="hidden" name="doctorId" th:value="*{doctor.getId()}">
+                                <input class="float-right" type="submit" value="Make an appointment"/>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

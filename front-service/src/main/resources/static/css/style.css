@@ -1,0 +1,46 @@
+#user-info{
+    text-align: center;
+    margin: 10% 10%;
+    background-color: #00B2FF;
+    border-radius: 16px;
+    padding: 1%;
+}
+
+p{
+    font-size: x-large;
+    font-weight: bold;
+    padding: 1%;
+    background-color: #0099FF;
+    margin: 2% auto;
+    max-width: 70%;
+    border-radius: 16px;
+}
+
+button{
+    font-size: x-large;
+    font-weight: bold;
+    background-color: #0099FF;
+    border-color: #0099FF;
+    border-radius: 16px;
+    transition: 0.2s;
+}
+button:hover{
+    color: white;
+}
+input[type=text] {
+    border-radius: 8px;
+    border-color: #0099FF;
+    background-color: rgb(111, 173, 247);
+}
+
+#change-info-btn{
+    font-size: x-large;
+    font-weight: bold;
+    background-color: #0099FF;
+    border-color: #0099FF;
+    border-radius: 16px;
+    transition: 0.2s;
+}
+#change-info-btn:hover{
+    color: white;
+}

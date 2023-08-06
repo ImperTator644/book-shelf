@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+    <title>Appointment created</title>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+    <div class="text-center">
+
+        <fieldset>
+
+            <legend>Created appointment</legend>
+
+            <label class="col-lg control-label"><b>Doctor</b></label>
+            <div class="col-lg mb-2">
+                <input class="col-lg text-center" disabled th:placeholder="*{doctor.getPersonalData().getName() + ' ' + doctor.getPersonalData().getSurname()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Address</b></label>
+            <div class="col-lg mb-2">
+                <input class="col-lg text-center" disabled th:placeholder="*{clinic.getStreet() + ' ' + clinic.getBuildingNumber()}">
+            </div>
+
+            <label class="col-lg control-label"><b>City</b></label>
+            <div class="col-lg mb-2">
+                <input class="col-lg text-center" disabled th:placeholder="*{clinic.getCity()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Date</b></label>
+            <div class="col-lg mb-2">
+                <input class="col-lg text-center" disabled th:placeholder="*{date + ' ' + dateTime}">
+            </div>
+
+            <label class="col-lg control-label"><b>Appointment Type</b></label>
+            <div class="col-lg mb-2">
+                <input class="col-md text-center" disabled th:placeholder="*{appointmentType.getName()}">
+            </div>
+
+            <label class="col-lg control-label"><b>Appointment description</b></label>
+            <div class="col-lg mb-2">
+                <input class="col-lg text-center" disabled th:placeholder="*{appointmentType.getDescription()}">
+            </div>
+
+        </fieldset>
+
+    </div>
+</div>
+
+</body>
+</html>
