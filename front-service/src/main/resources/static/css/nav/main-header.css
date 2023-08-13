@@ -1,0 +1,45 @@
+#main-nav-banner {
+    font-size: x-large;
+}
+
+#main-nav-logo {
+    width: 200px;
+    height: 62px;
+}
+
+#global-search {
+    padding-left: 5vw;
+    padding-right: 3vw;
+}
+
+@media(max-width: 1200px) {
+    #global-search {
+        padding-left: 0vw;
+    }
+    .navbar-nav {
+        padding-top: 3vw;
+    }
+}
+
+#global-search-input {
+    width: 380px;
+}
+
+#global-search-button {
+    color: white; 
+    font-size: x-large;
+    border: solid white;
+}
+
+#main-nav-buttons {
+    width: 100%;
+}
+
+#main-login-button {
+    color: white; 
+    font-size: x-large; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    width: 200px;
+    margin-right: 1vw;
+}

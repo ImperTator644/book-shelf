@@ -1,0 +1,15 @@
+@media (min-width: 1240px) {
+    .container{
+        max-width: 90%;
+    }
+}
+
+@font-face {
+    font-family: book-shelf-domine-font;
+    src: url('../fonts/book-shelf-domine-medium.ttf');
+}
+
+body {
+    background-color: black;
+    font-family: book-shelf-domine-font
+}
