@@ -13,3 +13,10 @@ body {
     background-color: black;
     font-family: book-shelf-domine-font
 }
+
+.content {
+    background-color: white;
+    padding: 3%;
+    overflow: hidden;
+    display: flex;
+}
