@@ -36,10 +36,9 @@
 }
 
 #main-login-button {
-    color: white; 
-    font-size: x-large; 
-    overflow: hidden; 
-    white-space: nowrap; 
-    width: 200px;
-    margin-right: 1vw;
+    color: white;
+    font-size: x-large;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-right: 0;
 }
