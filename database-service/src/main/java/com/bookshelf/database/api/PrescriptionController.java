@@ -6,10 +6,9 @@ import com.bookshelf.database.model.Prescription;
 import com.bookshelf.database.repository.AppointmentRepository;
 import com.bookshelf.database.repository.PrescriptionRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "prescription", description = "Prescription API")
 @RestController
@@ -19,8 +18,8 @@ public class PrescriptionController {
     private final PrescriptionRepository prescriptionRepository;
     private final AppointmentRepository appointmentRepository;
 
-    public PrescriptionController(PrescriptionRepository prescriptionRepository,
-                                  AppointmentRepository appointmentRepository) {
+    public PrescriptionController(
+            PrescriptionRepository prescriptionRepository, AppointmentRepository appointmentRepository) {
         this.prescriptionRepository = prescriptionRepository;
         this.appointmentRepository = appointmentRepository;
     }
@@ -36,9 +35,10 @@ public class PrescriptionController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "add")
-    public void addPrescription(@RequestParam String description,
-                          @RequestParam LocalDate expirationDate,
-                          @RequestParam Integer appointmentId) {
+    public void addPrescription(
+            @RequestParam String description,
+            @RequestParam LocalDate expirationDate,
+            @RequestParam Integer appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(DatabaseException::new);
 
         Prescription prescription = Prescription.builder()
@@ -53,5 +53,4 @@ public class PrescriptionController {
     public void deletePrescription(@RequestParam Integer id) {
         prescriptionRepository.deleteById(id);
     }
-
 }

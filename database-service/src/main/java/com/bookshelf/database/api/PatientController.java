@@ -5,9 +5,8 @@ import com.bookshelf.database.model.PersonalData;
 import com.bookshelf.database.repository.PatientRepository;
 import com.bookshelf.database.repository.PersonalDataRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "patient", description = "Patient API")
 @RestController
@@ -17,8 +16,7 @@ public class PatientController {
     private final PatientRepository patientRepository;
     private final PersonalDataRepository personalDataRepository;
 
-    public PatientController(PatientRepository patientRepository,
-                             PersonalDataRepository personalDataRepository) {
+    public PatientController(PatientRepository patientRepository, PersonalDataRepository personalDataRepository) {
         this.patientRepository = patientRepository;
         this.personalDataRepository = personalDataRepository;
     }
@@ -37,9 +35,7 @@ public class PatientController {
     public void addPatient(@RequestBody String pesel) {
         PersonalData personalData = personalDataRepository.findPersonalDataByPesel(pesel);
 
-        Patient patient = Patient.builder()
-                .personalData(personalData)
-                .build();
+        Patient patient = Patient.builder().personalData(personalData).build();
         patientRepository.save(patient);
     }
 
@@ -52,5 +48,4 @@ public class PatientController {
     public Patient getPatientByPesel(@PathVariable String pesel) {
         return patientRepository.getPatientByPersonalDataPesel(pesel);
     }
-
 }

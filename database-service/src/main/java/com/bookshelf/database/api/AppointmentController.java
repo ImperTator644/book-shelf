@@ -4,11 +4,10 @@ import com.bookshelf.database.exception.DatabaseException;
 import com.bookshelf.database.model.*;
 import com.bookshelf.database.repository.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "appointment", description = "Appointment API")
 @RestController
@@ -21,11 +20,12 @@ public class AppointmentController {
     private final AppointmentTypeRepository appointmentTypeRepository;
     private final DoctorRepository doctorRepository;
 
-    public AppointmentController(AppointmentRepository appointmentRepository,
-                                 PatientRepository patientRepository,
-                                 ClinicRepository clinicRepository,
-                                 AppointmentTypeRepository appointmentTypeRepository,
-                                 DoctorRepository doctorRepository) {
+    public AppointmentController(
+            AppointmentRepository appointmentRepository,
+            PatientRepository patientRepository,
+            ClinicRepository clinicRepository,
+            AppointmentTypeRepository appointmentTypeRepository,
+            DoctorRepository doctorRepository) {
         this.appointmentRepository = appointmentRepository;
         this.patientRepository = patientRepository;
         this.clinicRepository = clinicRepository;
@@ -44,27 +44,28 @@ public class AppointmentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/patient/{pesel}")
-    public List<Appointment> getAppointmentsByPesel(@PathVariable String pesel){
+    public List<Appointment> getAppointmentsByPesel(@PathVariable String pesel) {
         return appointmentRepository.getAppointmentsByPesel(pesel);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/doctor/{id}")
-    public List<Appointment> getAppointmentsByDoctorId(@PathVariable Integer id){
+    public List<Appointment> getAppointmentsByDoctorId(@PathVariable Integer id) {
         return appointmentRepository.getAppointmentsByDoctorId(id);
     }
 
-
     @RequestMapping(method = RequestMethod.POST, value = "add")
-    public void addAppointment(@RequestParam Integer patientId,
-                               @RequestParam String date,
-                               @RequestParam String dateTime,
-                               @RequestParam Integer clinicId,
-                               @RequestParam Integer doctorId,
-                               @RequestParam Integer appointmentTypeId) {
+    public void addAppointment(
+            @RequestParam Integer patientId,
+            @RequestParam String date,
+            @RequestParam String dateTime,
+            @RequestParam Integer clinicId,
+            @RequestParam Integer doctorId,
+            @RequestParam Integer appointmentTypeId) {
         Patient patient = patientRepository.findById(patientId).orElseThrow(DatabaseException::new);
         Clinic clinic = clinicRepository.findById(clinicId).orElseThrow(DatabaseException::new);
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(DatabaseException::new);
-        AppointmentType appointmentType = appointmentTypeRepository.findById(appointmentTypeId).orElseThrow(DatabaseException::new);
+        AppointmentType appointmentType =
+                appointmentTypeRepository.findById(appointmentTypeId).orElseThrow(DatabaseException::new);
 
         LocalDate localDate = LocalDate.parse(date);
         LocalTime localTime = LocalTime.parse(dateTime);

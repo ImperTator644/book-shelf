@@ -1,11 +1,10 @@
 package com.bookshelf.database.model;
 
+import java.time.LocalDate;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -28,7 +27,5 @@ public class Prescription {
     @Column(nullable = false)
     private LocalDate expirationDate;
 
-    public Prescription() {
-
-    }
+    public Prescription() {}
 }

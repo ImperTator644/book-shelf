@@ -1,10 +1,9 @@
 package com.bookshelf.database.model;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
 
 @Entity
 @Data
@@ -30,7 +29,5 @@ public class AppointmentType {
     @Column(nullable = false)
     private Integer duration;
 
-    public AppointmentType() {
-
-    }
+    public AppointmentType() {}
 }

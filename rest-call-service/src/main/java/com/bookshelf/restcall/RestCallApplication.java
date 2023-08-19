@@ -13,5 +13,4 @@ public class RestCallApplication {
     public static void main(String[] args) {
         SpringApplication.run(RestCallApplication.class, args);
     }
-
 }

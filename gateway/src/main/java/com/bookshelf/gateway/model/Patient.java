@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Column;
 public class Patient {
     @Id
     private Integer id;
+
     @Column("personal_data_pesel")
     private String personalData;
 }

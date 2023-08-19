@@ -3,9 +3,8 @@ package com.bookshelf.database.api;
 import com.bookshelf.database.model.Clinic;
 import com.bookshelf.database.repository.ClinicRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "clinic", description = "Clinic API")
 @RestController
@@ -34,16 +33,17 @@ public class ClinicController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "add")
-    public void addClinic(@RequestParam String buildingNumber,
-                          @RequestParam String city,
-                          @RequestParam String postalCode,
-                          @RequestParam String street) {
+    public void addClinic(
+            @RequestParam String buildingNumber,
+            @RequestParam String city,
+            @RequestParam String postalCode,
+            @RequestParam String street) {
         Clinic clinic = Clinic.builder()
-                        .buildingNumber(buildingNumber)
-                        .city(city)
-                        .postalCode(postalCode)
-                        .street(street)
-                        .build();
+                .buildingNumber(buildingNumber)
+                .city(city)
+                .postalCode(postalCode)
+                .street(street)
+                .build();
         clinicRepository.save(clinic);
     }
 

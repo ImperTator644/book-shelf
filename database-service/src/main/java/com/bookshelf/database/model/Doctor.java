@@ -1,11 +1,10 @@
 package com.bookshelf.database.model;
 
+import java.util.List;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -29,7 +28,6 @@ public class Doctor {
     @ManyToMany
     @JoinColumn(nullable = false)
     private List<Clinic> clinics;
-    public Doctor() {
 
-    }
+    public Doctor() {}
 }

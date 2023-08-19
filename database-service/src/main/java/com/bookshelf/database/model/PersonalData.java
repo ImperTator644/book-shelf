@@ -1,11 +1,10 @@
 package com.bookshelf.database.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
 
 @Entity
 @Data
@@ -37,7 +36,5 @@ public class PersonalData {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    public PersonalData() {
-
-    }
+    public PersonalData() {}
 }

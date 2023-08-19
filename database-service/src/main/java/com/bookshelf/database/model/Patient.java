@@ -1,11 +1,9 @@
 package com.bookshelf.database.model;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-
 
 @Entity
 @Data
@@ -22,7 +20,5 @@ public class Patient {
     @JoinColumn(nullable = false)
     private PersonalData personalData;
 
-    public Patient() {
-
-    }
+    public Patient() {}
 }

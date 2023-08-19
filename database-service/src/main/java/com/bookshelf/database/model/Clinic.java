@@ -1,10 +1,9 @@
 package com.bookshelf.database.model;
 
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
 
 @Entity
 @Data
@@ -29,7 +28,5 @@ public class Clinic {
     @Column(nullable = false)
     private String postalCode;
 
-    public Clinic() {
-
-    }
+    public Clinic() {}
 }

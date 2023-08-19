@@ -6,9 +6,8 @@ import com.bookshelf.database.model.Specialization;
 import com.bookshelf.database.repository.AppointmentTypeRepository;
 import com.bookshelf.database.repository.SpecializationRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "appointment type", description = "Appointment type API")
 @RestController
@@ -18,8 +17,8 @@ public class AppointmentTypeController {
     private final AppointmentTypeRepository appointmentTypeRepository;
     private final SpecializationRepository specializationRepository;
 
-    public AppointmentTypeController(AppointmentTypeRepository appointmentTypeRepository,
-                                     SpecializationRepository specializationRepository) {
+    public AppointmentTypeController(
+            AppointmentTypeRepository appointmentTypeRepository, SpecializationRepository specializationRepository) {
         this.appointmentTypeRepository = appointmentTypeRepository;
         this.specializationRepository = specializationRepository;
     }
@@ -40,11 +39,13 @@ public class AppointmentTypeController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "add")
-    public void addAppointmentType(@RequestParam String description,
-                                   @RequestParam Integer duration,
-                                   @RequestParam String name,
-                                   @RequestParam Integer specializationId) {
-        Specialization specialization = specializationRepository.findById(specializationId).orElseThrow(DatabaseException::new);
+    public void addAppointmentType(
+            @RequestParam String description,
+            @RequestParam Integer duration,
+            @RequestParam String name,
+            @RequestParam Integer specializationId) {
+        Specialization specialization =
+                specializationRepository.findById(specializationId).orElseThrow(DatabaseException::new);
 
         AppointmentType appointmentType = AppointmentType.builder()
                 .description(description)
@@ -59,5 +60,4 @@ public class AppointmentTypeController {
     public void deleteAppointmentType(@RequestParam Integer id) {
         appointmentTypeRepository.deleteById(id);
     }
-
 }

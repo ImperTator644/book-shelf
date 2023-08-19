@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class PersonalDataDto {
     @JsonProperty("pesel")
     private String username;
+
     private String name;
     private String surname;
     private String mail;

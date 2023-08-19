@@ -1,16 +1,15 @@
 package com.bookshelf.frontservice.client;
 
-import com.bookshelf.frontservice.dto.PatientDto;
 import com.bookshelf.frontservice.dto.AppointmentTypeDto;
 import com.bookshelf.frontservice.dto.ClinicDto;
 import com.bookshelf.frontservice.dto.DoctorDto;
+import com.bookshelf.frontservice.dto.PatientDto;
+import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @FeignClient(name = "reservation-service")
 public interface ReservationClient {
@@ -22,12 +21,13 @@ public interface ReservationClient {
     PatientDto getPatientByPesel(@PathVariable String pesel);
 
     @PostMapping(value = "/api/appointment/add")
-    void addAppointment(@RequestParam Integer patientId,
-                               @RequestParam String date,
-                               @RequestParam String dateTime,
-                               @RequestParam Integer clinicId,
-                               @RequestParam Integer doctorId,
-                               @RequestParam Integer appointmentTypeId);
+    void addAppointment(
+            @RequestParam Integer patientId,
+            @RequestParam String date,
+            @RequestParam String dateTime,
+            @RequestParam Integer clinicId,
+            @RequestParam Integer doctorId,
+            @RequestParam Integer appointmentTypeId);
 
     @GetMapping(value = "/api/appointment/spec/{specialization}")
     List<AppointmentTypeDto> getAppointmentTypesBySpec(@PathVariable String specialization);

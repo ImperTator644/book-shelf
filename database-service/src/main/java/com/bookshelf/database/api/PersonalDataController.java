@@ -1,16 +1,15 @@
 package com.bookshelf.database.api;
 
+import static java.util.Objects.isNull;
+
 import com.bookshelf.database.model.PersonalData;
 import com.bookshelf.database.repository.PersonalDataRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
-
-import static java.util.Objects.isNull;
 
 @Tag(name = "personal data", description = "Personal data API")
 @RestController
@@ -50,9 +49,12 @@ public class PersonalDataController {
     @RequestMapping(method = RequestMethod.PUT, value = "/update")
     public ResponseEntity<String> updatePersonalData(@RequestBody PersonalData personalData) {
         if (isNull(personalDataRepository.findPersonalDataByPesel(personalData.getPesel()))) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no personal data with pesel: " + personalData.getPesel());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("There is no personal data with pesel: " + personalData.getPesel());
         }
-        String pass = personalDataRepository.findPersonalDataByPesel(personalData.getPesel()).getPassword();
+        String pass = personalDataRepository
+                .findPersonalDataByPesel(personalData.getPesel())
+                .getPassword();
         personalData.setPassword(pass);
         personalDataRepository.save(personalData);
         return ResponseEntity.status(HttpStatus.OK).body("Personal data updated");

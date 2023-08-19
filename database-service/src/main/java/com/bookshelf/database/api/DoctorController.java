@@ -1,5 +1,8 @@
 package com.bookshelf.database.api;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import com.bookshelf.database.exception.DatabaseException;
 import com.bookshelf.database.model.Clinic;
 import com.bookshelf.database.model.Doctor;
@@ -10,13 +13,9 @@ import com.bookshelf.database.repository.DoctorRepository;
 import com.bookshelf.database.repository.PersonalDataRepository;
 import com.bookshelf.database.repository.SpecializationRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "doctor", description = "Doctor API")
 @RestController
@@ -28,20 +27,19 @@ public class DoctorController {
     private final SpecializationRepository specializationRepository;
     private final ClinicRepository clinicRepository;
 
-    public DoctorController(DoctorRepository doctorRepository,
-                            PersonalDataRepository personalDataRepository,
-                            SpecializationRepository specializationRepository,
-                            ClinicRepository clinicRepository) {
+    public DoctorController(
+            DoctorRepository doctorRepository,
+            PersonalDataRepository personalDataRepository,
+            SpecializationRepository specializationRepository,
+            ClinicRepository clinicRepository) {
         this.doctorRepository = doctorRepository;
         this.personalDataRepository = personalDataRepository;
         this.specializationRepository = specializationRepository;
         this.clinicRepository = clinicRepository;
     }
 
-
     @RequestMapping(method = RequestMethod.POST, value = "add")
-    public void addDoctor(@RequestParam String pesel,
-                          @RequestParam List<String> specializations) {
+    public void addDoctor(@RequestParam String pesel, @RequestParam List<String> specializations) {
         PersonalData personalData = personalDataRepository.findPersonalDataByPesel(pesel);
         List<Specialization> specializationList = new ArrayList<>();
 
@@ -80,8 +78,7 @@ public class DoctorController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "add-clinic")
-    public void addClinicToDoctor(@RequestParam Integer doctorId,
-                          @RequestParam Integer clinicId) {
+    public void addClinicToDoctor(@RequestParam Integer doctorId, @RequestParam Integer clinicId) {
         Clinic clinic = clinicRepository.findById(clinicId).orElse(null);
         Doctor doctor = doctorRepository.findById(doctorId).orElse(null);
 
@@ -94,10 +91,10 @@ public class DoctorController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "add-specialization")
-    public void addSpecializationToDoctor(@RequestParam Integer doctorId,
-                                  @RequestParam Integer specializationId) {
+    public void addSpecializationToDoctor(@RequestParam Integer doctorId, @RequestParam Integer specializationId) {
         Doctor doctor = doctorRepository.findById(doctorId).orElse(null);
-        Specialization specialization = specializationRepository.findById(specializationId).orElse(null);
+        Specialization specialization =
+                specializationRepository.findById(specializationId).orElse(null);
 
         if (isNull(specialization) || isNull(doctor)) {
             throw new DatabaseException("There is no specialization or doctor with such ID");
@@ -108,7 +105,8 @@ public class DoctorController {
     }
 
     @GetMapping(value = "by-city-and-spec")
-    public List<Doctor> getDoctorsBySpecializationAndClinic(@RequestParam String specialization, @RequestParam String city) {
+    public List<Doctor> getDoctorsBySpecializationAndClinic(
+            @RequestParam String specialization, @RequestParam String city) {
         return doctorRepository.getDoctorBySpecializationAndCity(specialization, city);
     }
 
@@ -116,6 +114,4 @@ public class DoctorController {
     public void deleteDoctor(@RequestParam Integer id) {
         doctorRepository.deleteById(id);
     }
-
-
 }

@@ -3,9 +3,8 @@ package com.bookshelf.database.api;
 import com.bookshelf.database.model.Specialization;
 import com.bookshelf.database.repository.SpecializationRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "specialization", description = "Specialization API")
 @RestController
@@ -30,16 +29,12 @@ public class SpecializationController {
 
     @RequestMapping(method = RequestMethod.POST, value = "add")
     public void addSpecialization(@RequestParam String name) {
-        Specialization specialization = Specialization.builder()
-                .name(name)
-                .build();
+        Specialization specialization = Specialization.builder().name(name).build();
         specializationRepository.save(specialization);
     }
-
 
     @RequestMapping(method = RequestMethod.DELETE, value = "delete")
     public void deleteSpecialization(@RequestParam Integer id) {
         specializationRepository.deleteById(id);
     }
-
 }

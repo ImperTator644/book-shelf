@@ -1,11 +1,11 @@
 package com.bookshelf.database.exception;
 
 public class DatabaseException extends RuntimeException {
-    public DatabaseException(String errorMessage){
+    public DatabaseException(String errorMessage) {
         super(errorMessage);
     }
 
-    public DatabaseException(){
+    public DatabaseException() {
         super("Database exception");
     }
 }

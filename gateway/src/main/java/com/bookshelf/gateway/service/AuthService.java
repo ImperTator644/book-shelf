@@ -1,7 +1,7 @@
 package com.bookshelf.gateway.service;
 
-import com.bookshelf.gateway.model.CustomUserDetails;
 import com.bookshelf.gateway.client.DBClient;
+import com.bookshelf.gateway.model.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;

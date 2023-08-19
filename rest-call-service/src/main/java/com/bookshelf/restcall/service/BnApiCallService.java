@@ -1,19 +1,19 @@
 package com.bookshelf.restcall.service;
 
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 @Service
 public class BnApiCallService {
 
     @Value("${bn.base.url}")
     private String bnBaseUrl;
+
     private StringBuilder urlCall;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         urlCall = new StringBuilder(bnBaseUrl);
     }
 
@@ -39,7 +39,7 @@ public class BnApiCallService {
         return url;
     }
 
-    private BnApiCallService appendUrl(String query, String value){
+    private BnApiCallService appendUrl(String query, String value) {
         urlCall.append(query).append("=").append(value).append("&amp;");
         return this;
     }

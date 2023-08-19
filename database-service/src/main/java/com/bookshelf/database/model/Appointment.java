@@ -1,12 +1,11 @@
 package com.bookshelf.database.model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Data
@@ -41,7 +40,5 @@ public class Appointment {
     @JoinColumn(nullable = false)
     private AppointmentType appointmentType;
 
-    public Appointment() {
-
-    }
+    public Appointment() {}
 }

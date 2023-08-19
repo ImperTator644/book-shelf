@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class UserCredential {
     @JsonProperty("pesel")
     private String username;
+
     private String password;
 }

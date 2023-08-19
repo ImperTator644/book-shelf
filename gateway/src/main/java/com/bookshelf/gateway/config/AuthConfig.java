@@ -1,6 +1,7 @@
 package com.bookshelf.gateway.config;
 
 import com.bookshelf.gateway.repository.PersonalInfoRepository;
+import java.net.URI;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,13 +18,12 @@ import org.springframework.security.web.server.authentication.RedirectServerAuth
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-
 @EnableWebFluxSecurity
 @Configuration
 public class AuthConfig {
     @Value("${log.current.empty.user}")
     private String emptyUser;
+
     private final PersonalInfoRepository personalInfoRepository;
     private final CurrentUser currentUser;
 
@@ -34,15 +34,19 @@ public class AuthConfig {
 
     @Bean
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
-        return http.csrf().disable()
+        return http.csrf()
+                .disable()
                 .authorizeExchange()
-                .pathMatchers("/auth/register", "/register", "/logged-user", "/", "/images/**", "/js/**", "/css/**").permitAll()
-                .anyExchange().authenticated()
+                .pathMatchers("/auth/register", "/register", "/logged-user", "/", "/images/**", "/js/**", "/css/**")
+                .permitAll()
+                .anyExchange()
+                .authenticated()
                 .and()
                 .formLogin()
                 .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/") {
                     @Override
-                    public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
+                    public Mono<Void> onAuthenticationSuccess(
+                            WebFilterExchange webFilterExchange, Authentication authentication) {
                         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                         currentUser.setUserName(userDetails.getUsername());
                         return super.onAuthenticationSuccess(webFilterExchange, authentication);
