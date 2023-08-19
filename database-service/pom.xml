@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>book-shelf</artifactId>
-        <groupId>luximed</groupId>
+        <groupId>book-shelf</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.database</groupId>
+    <groupId>com.bookshelf.database</groupId>
     <artifactId>database-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>database-service</name>
