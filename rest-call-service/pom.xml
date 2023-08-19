@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>book-shelf</artifactId>
-        <groupId>luximed</groupId>
+        <groupId>book-shelf</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.luximed.client</groupId>
+    <groupId>com.bookshelf.restcall</groupId>
     <artifactId>rest-call-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rest-call-service</name>
