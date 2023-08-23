@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+    <title>BookShelf | Search results</title>
+  </head>
+  <body>
+    <div class="container mt-2">
+
+      <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+      <div class="content mt-4 rounded">
+        <div th:each="result: ${searchResults}">
+          <p th:text="*{result.getTitle()}"></p>
+          <p th:text="*{result.getAuthors()}"></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

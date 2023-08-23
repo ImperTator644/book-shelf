@@ -5,10 +5,13 @@
 }
 
 .book-title {
-    height: 10%;
+    height: 12%;
     display: flex;
     align-items: center;
     position: relative;
+    font-size: 2vw;
+    background-color: rgb(199, 196, 196);
+    font-weight: bold;
 }
 
 .book-cover {
@@ -24,12 +27,17 @@
 
 .book-title::before {
     content: attr(data-title);
-    font-size: 4rem;
+    font-size: 3.2vw;
     color: black;
-    opacity: .07;
+    opacity: .05;
     font-weight: 900;
     position: absolute;
     white-space: nowrap;
     transform: translate(0%, -10%);
     z-index: 0;
+}
+
+.content {
+    overflow: hidden;
+    display: flex;
 }

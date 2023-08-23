@@ -17,6 +17,4 @@ body {
 .content {
     background-color: white;
     padding: 3%;
-    overflow: hidden;
-    display: flex;
 }
