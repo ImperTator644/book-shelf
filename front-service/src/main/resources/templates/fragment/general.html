@@ -21,7 +21,8 @@
     <body>
 
 <!--        Navigation bar fragment -->
-        <div th:fragment="navigation-bar">
+        <div th:fragment="navigation-bar"
+             th:with="loggedUser=@{__${@thymeleaf.getCurrentUserPesel()}__}, emptyUser=@{__${@thymeleaf.getEmptyUser()}__}">
             <div class="navigation">
                 <nav class="navbar navbar-expand-xl navbar-dark" id="main-nav-banner">
                     <a class="navbar-brand" th:href="@{/}">
@@ -35,10 +36,10 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                         <div class="navbar-nav">
                             <div class="nav-item mt-2">
-                                <form class="d-flex" id="global-search">
+                                <form class="d-flex" id="global-search" th:action="@{/search}" method="post">
                                     <input class="form-control" id="global-search-input"
-                                           placeholder="Szukaj tytułów książek i nazwiska autorów"
-                                           aria-label="Search">
+                                           placeholder="Search for books or authors"
+                                           aria-label="Search" name="query">
                                     <button id="global-search-button" class="btn" type="submit">
                                         <i class="fa fa-search"></i>
                                     </button>
@@ -49,30 +50,40 @@
                             <div class="nav-item dropdown">
                                 <div class="nav-link dropdown-toggle" role="button"
                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Mój profil
+                                    My profile
                                 </div>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Moje dane</a>
-                                    <a class="dropdown-item" href="#">Mój kalendarz</a>
+                                    <a class="dropdown-item" href="#">My profile</a>
+                                    <a class="dropdown-item" href="#">My calendar</a>
                                     <a class="dropdown-item" href="#">My appointments</a>
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <div class="nav-link dropdown-toggle" role="button"
                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Katalog
+                                    Catalog
                                 </div>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Moje dane</a>
-                                    <a class="dropdown-item" href="#">Mój kalendarz</a>
+                                    <a class="dropdown-item" href="#">My profile</a>
+                                    <a class="dropdown-item" href="#">My calendar</a>
                                     <a class="dropdown-item" href="#">My appointments</a>
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-nav">
-                            <a class="btn" th:href="@{/login}" id="main-login-button">
-                                <i class="fa fa-sign-in" aria-hidden="true"></i> Zaloguj się
-                            </a>
+                            <div th:if="${loggedUser == emptyUser}" th:remove="tag">
+                                <a class="btn main-login-button" th:href="@{/login}">
+                                    <i class="fa fa-sign-in" aria-hidden="true"></i> Log in
+                                </a>
+                                <a th:href="@{/register}" class="btn main-login-button">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i> Sign in
+                                </a>
+                            </div>
+                            <div th:unless="${loggedUser == emptyUser}">
+                                <a class="btn main-login-button" th:href="@{/logout}">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Log out
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </nav>

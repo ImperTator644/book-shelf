@@ -35,7 +35,7 @@
     width: 100%;
 }
 
-#main-login-button {
+.main-login-button {
     color: white;
     font-size: x-large;
     overflow: hidden;

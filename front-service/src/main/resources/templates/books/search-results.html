@@ -10,9 +10,18 @@
       <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
 
       <div class="content mt-4 rounded">
-        <div th:each="result: ${searchResults}">
-          <p th:text="*{result.getTitle()}"></p>
-          <p th:text="*{result.getAuthors()}"></p>
+        <div th:if="${searchResults == null}">
+          <p>Please enter book title or name of the author to see search results</p>
+        </div>
+        <div th:unless="${searchResults == null}">
+          <h1>Search results for '<span th:text="${previousQuery}" th:remove="tag"></span>'</h1>
+          <div th:if="${searchResults.isEmpty()}">
+            <p>No results :(</p>
+          </div>
+          <div th:unless="${searchResults.isEmpty()}" th:each="result: ${searchResults}" th:remove="tag">
+            <p th:text="*{result.getTitle()}"></p>
+            <p th:text="*{result.getAuthors()}"></p>
+          </div>
         </div>
       </div>
     </div>
