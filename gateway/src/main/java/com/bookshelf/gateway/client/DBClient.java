@@ -13,8 +13,6 @@ public class DBClient {
     private final RestTemplate template;
 
     public ResponseEntity<String> saveUser(CustomUserDetails userData) {
-        return template.postForEntity(DATABASE_URI + "/user/add",
-                userData,
-                String.class);
+        return template.postForEntity(DATABASE_URI + "/user/add", userData, String.class);
     }
 }

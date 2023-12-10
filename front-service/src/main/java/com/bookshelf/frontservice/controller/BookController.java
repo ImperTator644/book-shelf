@@ -20,7 +20,7 @@ public class BookController {
 
     @GetMapping
     public String getTestBook(@RequestParam String title, @RequestParam String author) {
-        //get book from DB
+        // get book from DB
         return "books/book-overview";
     }
 
@@ -32,8 +32,10 @@ public class BookController {
         } catch (JsonProcessingException e) {
             return "redirect:http://localhost:8080/";
         }
-        //save book to db if it's not already there
-        var url = String.format("http://localhost:8080/book?title=%s&author=%s", book.getTitle(), book.getAuthors().get(0))
+        // save book to db if it's not already there
+        var url = String.format(
+                        "http://localhost:8080/book?title=%s&author=%s",
+                        book.getTitle(), book.getAuthors().get(0))
                 .replaceAll("\\[", "%5B")
                 .replaceAll("]", "%5D");
         return "redirect:" + url;

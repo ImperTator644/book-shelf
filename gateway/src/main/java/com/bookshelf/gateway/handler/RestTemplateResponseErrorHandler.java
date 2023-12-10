@@ -1,11 +1,10 @@
 package com.bookshelf.gateway.handler;
 
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
-
-import java.io.IOException;
 
 @Component
 @Slf4j

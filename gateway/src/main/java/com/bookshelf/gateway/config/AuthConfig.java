@@ -37,7 +37,8 @@ public class AuthConfig {
         return http.csrf()
                 .disable()
                 .authorizeExchange()
-                //                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user", "/", "/images/**",
+                //                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user", "/",
+                // "/images/**",
                 // "/js/**", "/css/**")
                 //                .permitAll()
                 .anyExchange()

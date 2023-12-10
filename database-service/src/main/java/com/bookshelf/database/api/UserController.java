@@ -1,15 +1,14 @@
 package com.bookshelf.database.api;
 
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
+
 import com.bookshelf.database.model.User;
 import com.bookshelf.database.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.http.ResponseEntity.badRequest;
-import static org.springframework.http.ResponseEntity.ok;
 
 @Tag(name = "user", description = "User API")
 @RestController
@@ -34,7 +33,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "add")
     public ResponseEntity<String> addUser(@RequestBody User user) {
-        if(userRepository.findByUsername(user.getUsername()) == null) {
+        if (userRepository.findByUsername(user.getUsername()) == null) {
             userRepository.save(user);
             return ok("User saved to DB");
         }
