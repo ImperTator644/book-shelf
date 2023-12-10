@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserCredential {
-    @JsonProperty("pesel")
+    @JsonProperty("username")
     private String username;
 
     private String password;

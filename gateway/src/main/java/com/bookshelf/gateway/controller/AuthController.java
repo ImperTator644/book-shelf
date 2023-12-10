@@ -1,9 +1,12 @@
 package com.bookshelf.gateway.controller;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
 import com.bookshelf.gateway.config.CurrentUser;
 import com.bookshelf.gateway.model.CustomUserDetails;
-import com.bookshelf.gateway.model.UserCredential;
 import com.bookshelf.gateway.service.AuthService;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,22 +33,13 @@ public class AuthController {
     }
 
     @PostMapping(value = "auth/register")
-    public RedirectView addNewPatient(@Valid CustomUserDetails userDetails) {
-        authService.savePatient(userDetails);
-        return new RedirectView("/");
-    }
-
-    @PostMapping(value = "login")
-    @ResponseBody
-    public String getToken(UserCredential userCredential) {
-        return authService.generateToken(userCredential.getUsername());
-    }
-
-    @GetMapping(value = "validate")
-    @ResponseBody
-    public String validateToken(@RequestParam("token") String token) {
-        authService.validateToken(token);
-        return "Token is valid";
+    public RedirectView addNewUser(@Valid CustomUserDetails userDetails) {
+        var response = authService.saveUser(userDetails);
+        if (response.getStatusCodeValue() == 200) {
+            return new RedirectView("/");
+        }
+        return new RedirectView("/register?error="
+                + Optional.ofNullable(response.getBody()).orElse(EMPTY).replaceAll(SPACE, "+"));
     }
 
     @GetMapping(value = "logged-user")

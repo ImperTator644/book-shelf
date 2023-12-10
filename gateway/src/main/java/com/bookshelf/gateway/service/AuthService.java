@@ -4,6 +4,7 @@ import com.bookshelf.gateway.client.DBClient;
 import com.bookshelf.gateway.model.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +14,13 @@ public class AuthService {
 
     private final DBClient dbClient;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
 
     @Value("${log.user.auth.token}")
     private String loggedUserToken;
 
-    public void savePatient(CustomUserDetails personalData) {
-        personalData.setPassword(passwordEncoder.encode(personalData.getPassword()));
-        dbClient.savePersonalData(personalData);
-        dbClient.savePatient(personalData.getUsername());
-    }
-
-    public String generateToken(String pesel) {
-        return jwtService.generateToken(pesel);
-    }
-
-    public void validateToken(String token) {
-        jwtService.validateToken(token);
+    public ResponseEntity<String> saveUser(CustomUserDetails userData) {
+        userData.setPassword(passwordEncoder.encode(userData.getPassword()));
+        return dbClient.saveUser(userData);
     }
 
     public boolean validateLoggedUserToken(String token) {

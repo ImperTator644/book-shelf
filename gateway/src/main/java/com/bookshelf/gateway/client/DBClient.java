@@ -2,6 +2,7 @@ package com.bookshelf.gateway.client;
 
 import com.bookshelf.gateway.model.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,11 +12,7 @@ public class DBClient {
     private static final String DATABASE_URI = "http://localhost:8083/api/database";
     private final RestTemplate template;
 
-    public void savePatient(String pesel) {
-        template.postForEntity(DATABASE_URI + "/patient/add", pesel, String.class);
-    }
-
-    public void savePersonalData(CustomUserDetails customUserDetails) {
-        template.postForEntity(DATABASE_URI + "/personalData/add", customUserDetails, CustomUserDetails.class);
+    public ResponseEntity<String> saveUser(CustomUserDetails userData) {
+        return template.postForEntity(DATABASE_URI + "/user/add", userData, String.class);
     }
 }
