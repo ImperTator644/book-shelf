@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
     @Bean
     public OpenAPI api() {
-        return new OpenAPI().info(new Info().title("Luximed").version("1.0"));
+        return new OpenAPI().info(new Info().title("Book Shelf").version("1.0"));
     }
 }

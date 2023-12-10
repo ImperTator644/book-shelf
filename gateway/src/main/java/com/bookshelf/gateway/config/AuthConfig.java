@@ -1,6 +1,6 @@
 package com.bookshelf.gateway.config;
 
-import com.bookshelf.gateway.repository.PersonalInfoRepository;
+import com.bookshelf.gateway.repository.UserRepository;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -24,11 +24,11 @@ public class AuthConfig {
     @Value("${log.current.empty.user}")
     private String emptyUser;
 
-    private final PersonalInfoRepository personalInfoRepository;
+    private final UserRepository userRepository;
     private final CurrentUser currentUser;
 
-    public AuthConfig(PersonalInfoRepository personalInfoRepository, CurrentUser currentUser) {
-        this.personalInfoRepository = personalInfoRepository;
+    public AuthConfig(UserRepository userRepository, CurrentUser currentUser) {
+        this.userRepository = userRepository;
         this.currentUser = currentUser;
     }
 
@@ -37,7 +37,7 @@ public class AuthConfig {
         return http.csrf()
                 .disable()
                 .authorizeExchange()
-                //                .pathMatchers("/auth/register", "/register", "/logged-user", "/", "/images/**",
+                //                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user", "/", "/images/**",
                 // "/js/**", "/css/**")
                 //                .permitAll()
                 .anyExchange()
@@ -75,6 +75,6 @@ public class AuthConfig {
 
     @Bean
     public ReactiveUserDetailsService userDetailsService() {
-        return personalInfoRepository::findByUsername;
+        return userRepository::findByUsername;
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import reactor.core.publisher.Mono;
 
-public interface PersonalInfoRepository extends ReactiveCrudRepository<CustomUserDetails, String> {
-    Mono<UserDetails> findByUsername(String pesel);
+public interface UserRepository extends ReactiveCrudRepository<CustomUserDetails, String> {
+    Mono<UserDetails> findByUsername(String username);
 }

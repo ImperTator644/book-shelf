@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
-    <title>BookShelf | Search results</title>
-  </head>
-  <body>
-    <div class="container mt-2">
+    <head>
+        <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+        <title>BookShelf | Search results</title>
+    </head>
+    <body>
+        <div class="container mt-2">
 
-      <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+            <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
 
-      <div class="content mt-4 rounded">
-        <div th:if="${searchResults == null}">
-          <p>Please enter book title or name of the author to see search results</p>
+            <div class="content mt-4 rounded">
+                <div th:unless="${searchResults == null}">
+                    <h1>Search results for '<span th:text="${previousQuery}" th:remove="tag"></span>'</h1>
+                    <div th:if="${searchResults.isEmpty()}">
+                        <p>No results :(</p>
+                    </div>
+                    <div th:unless="${searchResults.isEmpty()}">
+                        <form th:action="@{/book}" th:method="post">
+                            <button th:each="result: ${searchResults}" th:name="bookToDisplay" th:value="${result.asJson()}" type="submit">[[${result.getTitle()}]]</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div th:unless="${searchResults == null}">
-          <h1>Search results for '<span th:text="${previousQuery}" th:remove="tag"></span>'</h1>
-          <div th:if="${searchResults.isEmpty()}">
-            <p>No results :(</p>
-          </div>
-          <div th:unless="${searchResults.isEmpty()}" th:each="result: ${searchResults}" th:remove="tag">
-            <p th:text="*{result.getTitle()}"></p>
-            <p th:text="*{result.getAuthors()}"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
+    </body>
 </html>

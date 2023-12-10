@@ -4,21 +4,19 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
-public class Patient {
+@NoArgsConstructor
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(unique = true, nullable = false)
-    private Integer id;
+    private String username;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private PersonalData personalData;
-
-    public Patient() {}
+    @Column(nullable = false)
+    private String password;
 }

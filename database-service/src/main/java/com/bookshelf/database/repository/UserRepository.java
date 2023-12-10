@@ -1,8 +1,10 @@
 package com.bookshelf.database.repository;
 
-import com.bookshelf.database.model.Prescription;
+import com.bookshelf.database.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PrescriptionRepository extends JpaRepository<Prescription, Integer> {}
+public interface UserRepository extends JpaRepository<User, Integer> {
+    User findByUsername(String username);
+}
