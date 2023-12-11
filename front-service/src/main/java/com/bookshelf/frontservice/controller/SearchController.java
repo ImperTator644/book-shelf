@@ -1,7 +1,8 @@
 package com.bookshelf.frontservice.controller;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
 import com.bookshelf.frontservice.client.RestCallClient;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class SearchController {
         if (query == null) {
             return "redirect:http://localhost:8080/";
         }
-        var results = restCallClient.findBooksByQuery(query.replaceAll(StringUtils.SPACE, "+"));
+        var results = restCallClient.findBooksByQuery(query.replaceAll(SPACE, "+"));
         model.put("searchResults", results);
         model.put("previousQuery", query);
         return "books/search-results";

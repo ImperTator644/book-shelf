@@ -20,8 +20,8 @@
                                             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-1"
                                                style="background-color: #b8daf2;">Log in</p>
 
+                                            <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
                                             <form method="post" action="/login" class="mx-1 mx-md-4">
-
                                                 <div class="d-flex flex-row align-items-center mb-4">
                                                     <div class="form-outline flex-fill mb-0">
                                                         <label for="username" class="sr-only">Username</label>

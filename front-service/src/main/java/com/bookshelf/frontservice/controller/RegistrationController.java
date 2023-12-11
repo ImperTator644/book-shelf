@@ -4,6 +4,7 @@ import com.bookshelf.frontservice.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,8 @@ public class RegistrationController {
     }
 
     @GetMapping("/user-login")
-    public String loginUser() {
+    public String loginUser(@RequestParam(required = false) String error, ModelMap modelMap) {
+        modelMap.put("error", error);
         return "user/login";
     }
 

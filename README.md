@@ -11,3 +11,6 @@ Services and their ports:
 | database-service    | 8083     |
 | discovery-server    | 8761     |
 | gateway             | 8080     |
+
+Endpoints are exposed on swagger
+http://localhost:8083/swagger-ui.html
