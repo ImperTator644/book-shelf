@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.WebFilterExchange;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import reactor.core.publisher.Mono;
@@ -55,6 +56,8 @@ public class AuthConfig {
                         return super.onAuthenticationSuccess(webFilterExchange, authentication);
                     }
                 })
+                .authenticationFailureHandler(
+                        new RedirectServerAuthenticationFailureHandler("/user-login?error=Invalid%20credentials"))
                 .and()
                 .logout()
                 .logoutSuccessHandler(new RedirectServerLogoutSuccessHandler() {

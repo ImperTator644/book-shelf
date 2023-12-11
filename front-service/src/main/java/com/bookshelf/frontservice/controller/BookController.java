@@ -32,7 +32,7 @@ public class BookController {
         } catch (JsonProcessingException e) {
             return "redirect:http://localhost:8080/";
         }
-        // save book to db if it's not already there
+
         var url = String.format(
                         "http://localhost:8080/book?title=%s&author=%s",
                         book.getTitle(), book.getAuthors().get(0))
