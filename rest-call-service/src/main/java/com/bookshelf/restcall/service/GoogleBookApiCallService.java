@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 public class GoogleBookApiCallService {
     private static final int MAX_RESULTS = 20;
     private static final String ENGLISH_LANG = "en";
-    private static final String QUERY_PATTERN = "key=%s&maxResults=%d&q=%s";
+    private static final String QUERY_PATTERN = "key=%s&maxResults=%d&q=intitle:%s";
     private static final String AUTHOR_QUERY_PATTERN = "key=%s&maxResults=%d&q=inauthor:%s";
 
     @Value("${google.books.api.url}")

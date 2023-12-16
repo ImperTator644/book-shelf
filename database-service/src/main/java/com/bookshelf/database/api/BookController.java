@@ -1,15 +1,16 @@
 package com.bookshelf.database.api;
 
-import static org.springframework.http.ResponseEntity.badRequest;
-import static org.springframework.http.ResponseEntity.ok;
-
+import com.bookshelf.database.dto.BookDTO;
 import com.bookshelf.database.model.Book;
 import com.bookshelf.database.repository.BookRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "book", description = "Book API")
@@ -34,11 +35,31 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addBook(@RequestBody Book book) {
-        if (this.getBookByTitleAndAuthors(book.getTitle(), book.getAuthors()) != null) {
-            return badRequest().body("Book already in DB");
+    public ResponseEntity<Integer> addBook(@RequestBody BookDTO bookDTO) {
+        String authors;
+        if (bookDTO.getAuthors() == null) {
+            authors = null;
+        } else if (bookDTO.getAuthors().size() == 1) {
+            authors = bookDTO.getAuthors().get(0);
+        } else {
+            authors = String.join(", ", bookDTO.getAuthors());
+        }
+        var book = Book.builder()
+                .authors(authors)
+                .title(bookDTO.getTitle())
+                .pageCount(bookDTO.getPageCount())
+                .language(bookDTO.getLanguage())
+                .thumbnail(bookDTO.getThumbnail())
+                .smallThumbnail(bookDTO.getSmallThumbnail())
+                .description(bookDTO.getDescription())
+                .publishedDate(bookDTO.getPublishedDate())
+                .build();
+        var bookInDb = this.getBookByTitleAndAuthors(book.getTitle(), book.getAuthors());
+        if (bookInDb != null) {
+            return ok().body(bookInDb.getId());
         }
         bookRepository.save(book);
-        return ok("Book successfully saved to DB");
+        bookInDb = this.getBookByTitleAndAuthors(book.getTitle(), book.getAuthors());
+        return ok(bookInDb.getId());
     }
 }

@@ -1,26 +1,33 @@
 package com.bookshelf.frontservice.controller;
 
+import com.bookshelf.frontservice.client.DBClient;
 import com.bookshelf.frontservice.dto.BookDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("book")
 @Slf4j
+@RequiredArgsConstructor
 public class BookController {
 
     private final ObjectMapper objectMapper;
-
-    public BookController(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    private final DBClient dbClient;
 
     @GetMapping
-    public String getTestBook(@RequestParam String title, @RequestParam String author) {
-        // get book from DB
+    public String redirectToMainPage() {
+        return "redirect:http://localhost:8080/";
+    }
+
+    @GetMapping("/{bookID}")
+    public String getTestBook(@PathVariable int bookID, ModelMap modelMap) {
+        var bookFromDB = dbClient.getBookByID(bookID);
+        modelMap.put("book", bookFromDB);
         return "books/book-overview";
     }
 
@@ -32,12 +39,8 @@ public class BookController {
         } catch (JsonProcessingException e) {
             return "redirect:http://localhost:8080/";
         }
-
-        var url = String.format(
-                        "http://localhost:8080/book?title=%s&author=%s",
-                        book.getTitle(), book.getAuthors().get(0))
-                .replaceAll("\\[", "%5B")
-                .replaceAll("]", "%5D");
+        var bookId = dbClient.addBook(book).getBody();
+        var url = String.format("http://localhost:8080/book/%d", bookId);
         return "redirect:" + url;
     }
 }
