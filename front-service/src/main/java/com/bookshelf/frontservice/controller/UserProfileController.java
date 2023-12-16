@@ -17,11 +17,11 @@ public class UserProfileController {
     private final CurrentUserService currentUserService;
     private final DBClient dbClient;
     private final PasswordEncoder passwordEncoder;
+
     @GetMapping("profile")
-    public String getProfilePage(@RequestParam(required = false) String message,
-                                 ModelMap modelMap) {
+    public String getProfilePage(@RequestParam(required = false) String message, ModelMap modelMap) {
         var currentUserName = currentUserService.getCurrentUser();
-        if(currentUserName.equals(currentUserService.getEmptyUser())) {
+        if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to see your profile";
         }
         var currentUser = dbClient.getUserByUsername(currentUserName);
@@ -31,10 +31,10 @@ public class UserProfileController {
     }
 
     @GetMapping("profile/edit")
-    public String getEditProfilePage(@RequestParam(name = "error", required = false) String errorMessage,
-                                     ModelMap modelMap) {
+    public String getEditProfilePage(
+            @RequestParam(name = "error", required = false) String errorMessage, ModelMap modelMap) {
         var currentUserName = currentUserService.getCurrentUser();
-        if(currentUserName.equals(currentUserService.getEmptyUser())) {
+        if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
         }
         var currentUser = dbClient.getUserByUsername(currentUserName);
@@ -46,7 +46,7 @@ public class UserProfileController {
     @PostMapping("profile/edit/name")
     public String editUserName(@RequestParam String username) {
         var currentUserName = currentUserService.getCurrentUser();
-        if(currentUserName.equals(currentUserService.getEmptyUser())) {
+        if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
         }
         dbClient.updateUsername(username, currentUserName);
@@ -55,14 +55,15 @@ public class UserProfileController {
     }
 
     @PostMapping("profile/edit/password")
-    public String editPassword(@RequestParam("new-password") String newPassword,
-                               @RequestParam("old-password") String oldPassword) {
+    public String editPassword(
+            @RequestParam("new-password") String newPassword, @RequestParam("old-password") String oldPassword) {
         var currentUserName = currentUserService.getCurrentUser();
-        if(currentUserName.equals(currentUserService.getEmptyUser())) {
+        if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
         }
         var encodedNewPassword = passwordEncoder.encode(newPassword);
-        var responseBody = dbClient.updatePassword(encodedNewPassword, oldPassword, currentUserName).getBody();
+        var responseBody = dbClient.updatePassword(encodedNewPassword, oldPassword, currentUserName)
+                .getBody();
         return String.format("redirect:http://localhost:8080/profile?message=%s", responseBody);
     }
 }
