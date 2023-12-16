@@ -1,8 +1,7 @@
 package com.bookshelf.database.dto;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class BookDTO {

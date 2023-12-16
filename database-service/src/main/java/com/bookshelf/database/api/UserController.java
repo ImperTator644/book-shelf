@@ -6,15 +6,12 @@ import static org.springframework.http.ResponseEntity.ok;
 import com.bookshelf.database.model.User;
 import com.bookshelf.database.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.util.List;
-
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.transaction.Transactional;
 
 @Tag(name = "user", description = "User API")
 @RestController
@@ -58,9 +55,8 @@ public class UserController {
 
     @PostMapping("update/password")
     @Transactional
-    public ResponseEntity<String> updatePassword(@RequestParam String newPassword,
-                                                 @RequestParam String oldPassword,
-                                                 @RequestParam String username) {
+    public ResponseEntity<String> updatePassword(
+            @RequestParam String newPassword, @RequestParam String oldPassword, @RequestParam String username) {
         var userToUpdate = this.getUserByUsername(username);
         if (!passwordEncoder.matches(oldPassword, userToUpdate.getPassword())) {
             return ok("Provided old password is incorrect");

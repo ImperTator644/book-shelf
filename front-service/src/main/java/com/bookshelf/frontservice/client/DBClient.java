@@ -22,7 +22,6 @@ public interface DBClient {
     void updateUsername(@RequestParam String newName, @RequestParam String oldname);
 
     @PostMapping("api/database/user/update/password")
-    ResponseEntity<String> updatePassword(@RequestParam String newPassword,
-                                          @RequestParam String oldPassword,
-                                          @RequestParam String username);
+    ResponseEntity<String> updatePassword(
+            @RequestParam String newPassword, @RequestParam String oldPassword, @RequestParam String username);
 }
