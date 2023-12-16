@@ -11,12 +11,27 @@
 
             <div class="content mt-4 rounded">
                 <div class="book-description">
-                    <div class="book-title" data-title="Title of the book">
-                        <h1>Title of the book</h1>
+                    <div class="rounded book-title" th:data-title="${book.getTitle()}">
+                        <h1 th:text="${book.getTitle()}"></h1>
+                    </div>
+                    <div class="book-authors">
+                        Author / Authors: <p th:text="${book.authors}"></p>
+                    </div>
+                    <div class="book-published-date">
+                        Release date: <p th:text="${book.publishedDate}"></p>
+                    </div>
+                    <div class="book-page-count">
+                        Number of pages: <p th:text="${book.pageCount}"></p>
+                    </div>
+                    <div class="book-language">
+                        Language: <p th:text="${book.language}"></p>
+                    </div>
+                    <div class="book-description-text">
+                        Description: <p th:text="${book.description}"></p>
                     </div>
                 </div>
                 <div class="book-cover">
-                    <img id="book-cover-img" th:src="@{https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1170803558l/72193.jpg}" alt="Alternative text">
+                    <img id="book-cover-img" th:src="${book.getThumbnail()}" alt="Alternative text">
                 </div>
             </div>
 

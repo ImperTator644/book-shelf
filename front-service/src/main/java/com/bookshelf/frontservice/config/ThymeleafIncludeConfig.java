@@ -1,6 +1,7 @@
 package com.bookshelf.frontservice.config;
 
 import com.bookshelf.frontservice.service.CurrentUserService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class ThymeleafIncludeConfig {
 
     @Value("${log.current.empty.user}")
+    @Getter
     private String emptyUser;
 
     private final CurrentUserService currentUserService;
@@ -18,9 +20,5 @@ public class ThymeleafIncludeConfig {
 
     public String getCurrentUserPesel() {
         return currentUserService.getCurrentUser();
-    }
-
-    public String getEmptyUser() {
-        return emptyUser;
     }
 }

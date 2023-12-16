@@ -11,10 +11,7 @@ import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.RedirectView;
 
 @Controller
@@ -49,5 +46,14 @@ public class AuthController {
             return currentUser.getUserName();
         }
         return emptyUser;
+    }
+
+    @PostMapping(value = "logged-user/edit/name")
+    @ResponseBody
+    public void changeLoggedUserName(@RequestParam("token") String token, @RequestBody String username) {
+        if (authService.validateLoggedUserToken(token)) {
+            log.info("Changing current user to {}", username);
+            currentUser.setUserName(username);
+        }
     }
 }
