@@ -1,5 +1,7 @@
 package com.bookshelf.frontservice.controller;
 
+import static org.springframework.http.HttpStatus.PARTIAL_CONTENT;
+
 import com.bookshelf.frontservice.client.DBClient;
 import com.bookshelf.frontservice.service.CurrentUserService;
 import lombok.RequiredArgsConstructor;
@@ -49,9 +51,12 @@ public class UserProfileController {
         if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
         }
-        dbClient.updateUsername(username, currentUserName);
+        var response = dbClient.updateUsername(username, currentUserName);
+        if (response.getStatusCode() == PARTIAL_CONTENT) {
+            return String.format("redirect:http://localhost:8080/profile?message=%s", response.getBody());
+        }
         currentUserService.setLoggedUserName(username);
-        return "redirect:http://localhost:8080/profile?message=Username successfully changed";
+        return String.format("redirect:http://localhost:8080/profile?message=%s", response.getBody());
     }
 
     @PostMapping("profile/edit/password")
