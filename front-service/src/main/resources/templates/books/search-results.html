@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+        <link th:href="@{/css/books/books-list.css}" rel="stylesheet">
         <title>BookShelf | Search results</title>
     </head>
     <body>
@@ -16,8 +17,25 @@
                         <p>No results :(</p>
                     </div>
                     <div th:unless="${searchResults.isEmpty()}">
-                        <form th:action="@{/book}" th:method="post">
-                            <button th:each="result: ${searchResults}" th:name="bookToDisplay" th:value="${result.asJson()}" type="submit">[[${result.getTitle()}]]</button>
+                        <form class="search-results-form" th:action="@{/book}" th:method="post">
+                            <button class="search-result-button" th:each="result: ${searchResults}"
+                                    th:name="bookToDisplay"
+                                    th:value="${result.asJson()}" type="submit">
+
+                                <div class="box">
+                                    <div class="left">
+                                        <img th:src="*{result.getSmallThumbnail()}"
+                                             alt="">
+                                    </div>
+                                    <div class="right">
+                                        <div th:text="*{result.getTitle()}" class="title">Title</div>
+                                        <div class="author">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i><span th:text="*{result.getAuthors()}">Authors</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </button>
                         </form>
                     </div>
                 </div>
