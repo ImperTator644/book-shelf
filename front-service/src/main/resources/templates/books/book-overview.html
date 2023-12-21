@@ -6,7 +6,7 @@
         <link th:href="@{/css/books/rating-bar.css}" rel="stylesheet">
         <title>BookShelf | Opis książki</title>
     </head>
-    <body>
+    <body th:with="loggedUser=@{__${@thymeleaf.getCurrentUserPesel()}__}, emptyUser=@{__${@thymeleaf.getEmptyUser()}__}">
         <div class="container mt-2">
             <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
 
@@ -34,7 +34,7 @@
                         Average users' rating: <p th:text="${avgRating}"></p>
                     </div>
                     <h3>Your rating</h3>
-                    <div class="rating">
+                    <div th:if="${loggedUser != emptyUser}" class="rating">
                         <form id="rating" th:action="@{/book/rating}" method="post">
                             <input type="radio" name="rating" id="rating-5" value="5"
                                    th:checked="${currentRating == 5}"/>
@@ -60,6 +60,11 @@
                             <input type="hidden" class="delete-rating" name="book-id" th:value="${book.getId()}">
                             <input type="submit" class="btn btn-danger delete-rating" value="Delete rating">
                         </form>
+                    </div>
+                    <div th:if="${loggedUser == emptyUser}">
+                        <a class="btn btn-warning" th:href="@{/user-login}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i> Log in to add your rating
+                        </a>
                     </div>
                 </div>
                 <div class="book-cover">

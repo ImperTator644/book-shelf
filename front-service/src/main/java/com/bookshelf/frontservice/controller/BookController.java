@@ -32,6 +32,9 @@ public class BookController {
         var avgRating = dbClient.getBookAvgRating(bookID).getBody();
         modelMap.put("book", bookFromDB);
         modelMap.put("avgRating", avgRating);
+        if (currentUser.getCurrentUser().equals(currentUser.getEmptyUser())) {
+            return "books/book-overview";
+        }
         var userRating =
                 dbClient.getUserRating(currentUser.getCurrentUser(), bookID).getBody();
         modelMap.put("currentRating", userRating);
