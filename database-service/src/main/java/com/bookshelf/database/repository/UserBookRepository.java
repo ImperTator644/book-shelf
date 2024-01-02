@@ -14,6 +14,8 @@ public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
 
     List<UserBook> findAllByBook(Book book);
 
+    List<UserBook> findAllByUser(User user);
+
     @Modifying
     @Query("UPDATE UserBook u set u.rating = :newRating where u.id = :userBookID")
     void updateRating(@Param("newRating") int newRating, @Param("userBookID") int userBookID);

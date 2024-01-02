@@ -1,17 +1,19 @@
 package com.bookshelf.gateway.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Collection;
-import javax.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Data
 @Table("user")
@@ -20,7 +22,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 public class CustomUserDetails implements UserDetails {
 
-    @Id
     @NotNull(message = "You need to specify 'username'")
     @NotBlank(message = "You need to specify 'username'")
     @Column

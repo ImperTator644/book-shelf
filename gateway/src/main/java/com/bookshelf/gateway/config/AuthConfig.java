@@ -40,9 +40,9 @@ public class AuthConfig {
         return http.csrf()
                 .disable()
                 .authorizeExchange()
-                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user", "/", "/book/**",
-                        "/images/**",
-                        "/js/**", "/css/**", "/fonts/**")
+                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user/**",
+                        "/", "/book/**", "/search/**",
+                        "/images/**", "/js/**", "/css/**", "/fonts/**")
                 .permitAll()
                 .anyExchange()
                 .authenticated()
