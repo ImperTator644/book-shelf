@@ -1,9 +1,7 @@
 package com.bookshelf.gateway.config;
 
 import com.bookshelf.gateway.repository.UserRepository;
-
 import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,9 +38,18 @@ public class AuthConfig {
         return http.csrf()
                 .disable()
                 .authorizeExchange()
-                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user/**",
-                        "/", "/book/**", "/search/**",
-                        "/images/**", "/js/**", "/css/**", "/fonts/**")
+                .pathMatchers(
+                        "/auth/register",
+                        "/register",
+                        "/user-login",
+                        "/logged-user/**",
+                        "/",
+                        "/book/**",
+                        "/search/**",
+                        "/images/**",
+                        "/js/**",
+                        "/css/**",
+                        "/fonts/**")
                 .permitAll()
                 .anyExchange()
                 .authenticated()

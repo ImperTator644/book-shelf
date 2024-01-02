@@ -22,5 +22,4 @@ public class CatalogController {
         modelMap.put("usersBooks", usersBooks);
         return "books/user-catalog";
     }
-
 }

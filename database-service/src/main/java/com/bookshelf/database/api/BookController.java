@@ -1,5 +1,7 @@
 package com.bookshelf.database.api;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 import com.bookshelf.database.dto.BookDTO;
 import com.bookshelf.database.model.Book;
 import com.bookshelf.database.model.UserBook;
@@ -7,13 +9,10 @@ import com.bookshelf.database.repository.BookRepository;
 import com.bookshelf.database.repository.UserBookRepository;
 import com.bookshelf.database.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "book", description = "Book API")

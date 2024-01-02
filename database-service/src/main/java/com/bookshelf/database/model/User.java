@@ -1,12 +1,12 @@
 package com.bookshelf.database.model;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Data

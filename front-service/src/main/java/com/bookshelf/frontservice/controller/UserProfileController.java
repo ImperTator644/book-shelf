@@ -61,14 +61,17 @@ public class UserProfileController {
 
     @PostMapping("profile/edit/password")
     public String editPassword(
-            @RequestParam("new-password") String newPassword, @RequestParam("old-password") String oldPassword,
+            @RequestParam("new-password") String newPassword,
+            @RequestParam("old-password") String oldPassword,
             @RequestParam("repeat-password") String repeatPassword) {
         var currentUserName = currentUserService.getCurrentUser();
         if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
         }
         if (!repeatPassword.equals(newPassword)) {
-            return String.format("redirect:http://localhost:8080/profile/edit?error=%s", "Your new and repeated passwords don' match");
+            return String.format(
+                    "redirect:http://localhost:8080/profile/edit?error=%s",
+                    "Your new and repeated passwords don' match");
         }
         var encodedNewPassword = passwordEncoder.encode(newPassword);
         var responseBody = dbClient.updatePassword(encodedNewPassword, oldPassword, currentUserName)
