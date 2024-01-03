@@ -1,10 +1,7 @@
 package com.bookshelf.database.model;
 
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +11,10 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class User {
+public class UserBook {
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "UUID", strategy = "uuid4")
@@ -25,9 +22,13 @@ public class User {
     @Column(columnDefinition = "CHAR(36)", unique = true, nullable = false)
     private UUID id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
 
-    @Column(nullable = false)
-    private String password;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Book book;
+
+    private Integer rating;
 }

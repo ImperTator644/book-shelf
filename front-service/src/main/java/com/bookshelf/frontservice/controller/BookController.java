@@ -1,9 +1,13 @@
 package com.bookshelf.frontservice.controller;
 
 import com.bookshelf.frontservice.client.DBClient;
+import com.bookshelf.frontservice.client.RestCallClient;
 import com.bookshelf.frontservice.dto.BookDto;
+import com.bookshelf.frontservice.service.CurrentUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collections;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,8 @@ public class BookController {
 
     private final ObjectMapper objectMapper;
     private final DBClient dbClient;
+    private final CurrentUserService currentUser;
+    private final RestCallClient restCallClient;
 
     @GetMapping
     public String redirectToMainPage() {
@@ -27,7 +33,21 @@ public class BookController {
     @GetMapping("/{bookID}")
     public String getTestBook(@PathVariable int bookID, ModelMap modelMap) {
         var bookFromDB = dbClient.getBookByID(bookID);
+        var avgRating = dbClient.getBookAvgRating(bookID).getBody();
         modelMap.put("book", bookFromDB);
+        modelMap.put("avgRating", avgRating);
+        var booksFromAuthor = restCallClient.findBooksByAuthor(bookFromDB.getAuthors());
+        Collections.shuffle(booksFromAuthor);
+        if (booksFromAuthor.size() > 3) {
+            booksFromAuthor = booksFromAuthor.stream().limit(4).collect(Collectors.toList());
+            modelMap.put("booksFromAuthor", booksFromAuthor);
+        }
+        if (currentUser.getCurrentUser().equals(currentUser.getEmptyUser())) {
+            return "books/book-overview";
+        }
+        var userRating =
+                dbClient.getUserRating(currentUser.getCurrentUser(), bookID).getBody();
+        modelMap.put("currentRating", userRating);
         return "books/book-overview";
     }
 
@@ -42,5 +62,20 @@ public class BookController {
         var bookId = dbClient.addBook(book).getBody();
         var url = String.format("http://localhost:8080/book/%d", bookId);
         return "redirect:" + url;
+    }
+
+    @PostMapping("/rating")
+    public String rateBook(@RequestParam(defaultValue = "0") int rating, @RequestParam("book-id") int bookID) {
+        log.info("Got rating = {} for bookID {}", rating, bookID);
+
+        dbClient.addRating(currentUser.getCurrentUser(), bookID, rating);
+
+        return String.format("redirect:http://localhost:8080/book/%d", bookID);
+    }
+
+    @PostMapping("/rating/remove")
+    public String removeRating(@RequestParam("book-id") int bookID) {
+        dbClient.removeRating(currentUser.getCurrentUser(), bookID);
+        return String.format("redirect:http://localhost:8080/book/%d", bookID);
     }
 }

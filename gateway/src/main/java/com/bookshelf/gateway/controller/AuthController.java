@@ -5,6 +5,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import com.bookshelf.gateway.config.CurrentUser;
 import com.bookshelf.gateway.model.CustomUserDetails;
+import com.bookshelf.gateway.model.UserDetailsDto;
 import com.bookshelf.gateway.service.AuthService;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -30,8 +31,16 @@ public class AuthController {
     }
 
     @PostMapping(value = "auth/register")
-    public RedirectView addNewUser(@Valid CustomUserDetails userDetails) {
-        var response = authService.saveUser(userDetails);
+    public RedirectView addNewUser(@Valid UserDetailsDto userDetails) {
+        if (!userDetails.getPassword().equals(userDetails.getRepeatPassword())) {
+            var message = "Your new and repeated passwords don't match".replaceAll(SPACE, "+");
+            return new RedirectView("/register?error=" + message);
+        }
+        var userToDb = CustomUserDetails.builder()
+                .password(userDetails.getPassword())
+                .username(userDetails.getUsername())
+                .build();
+        var response = authService.saveUser(userToDb);
         if (response.getStatusCodeValue() == 200) {
             return new RedirectView("/");
         }

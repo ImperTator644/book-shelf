@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
+        <link th:href="@{/css/books/books-list.css}" rel="stylesheet">
+        <title>BookShelf | User catalog</title>
+    </head>
+    <body>
+        <div class="container mt-2">
+
+            <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+            <div class="content mt-4 rounded">
+                <div th:unless="${usersBooks == null}">
+                    <h1>Your rated books</h1>
+                    <div th:if="${usersBooks.isEmpty()}">
+                        <p>You haven't rated any books :(</p>
+                    </div>
+                    <div th:unless="${usersBooks.isEmpty()}">
+                        <div class="search-results-form">
+                          <span th:each="result: ${usersBooks}" th:remove="tag">
+                              <a class="search-result-button" th:href="@{/book/{id}(id=*{result.getBook().getId()})}">
+
+                                <div class="box">
+                                  <div class="left">
+                                    <img th:src="*{result.getBook().getSmallThumbnail()}"
+                                         alt="">
+                                  </div>
+                                  <div class="right">
+                                    <div th:text="*{result.getBook().getTitle()}" class="title">Title</div>
+                                    <div class="author">
+                                      <i class="fa fa-pencil" aria-hidden="true"></i><span
+                                            th:text="*{result.getBook().getAuthors()}">Authors</span>
+                                    </div>
+                                      <div class="rating">
+                                        <img th:each="star : ${#numbers.sequence(1, result.getRating())}" th:src="@{/images/star.png}"
+                                             alt="">
+                                      </div>
+                                  </div>
+                                </div>
+
+                              </a>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

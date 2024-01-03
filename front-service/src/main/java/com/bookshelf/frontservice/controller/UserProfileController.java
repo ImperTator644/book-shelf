@@ -1,5 +1,7 @@
 package com.bookshelf.frontservice.controller;
 
+import static org.springframework.http.HttpStatus.PARTIAL_CONTENT;
+
 import com.bookshelf.frontservice.client.DBClient;
 import com.bookshelf.frontservice.service.CurrentUserService;
 import lombok.RequiredArgsConstructor;
@@ -49,17 +51,27 @@ public class UserProfileController {
         if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
         }
-        dbClient.updateUsername(username, currentUserName);
+        var response = dbClient.updateUsername(username, currentUserName);
+        if (response.getStatusCode() == PARTIAL_CONTENT) {
+            return String.format("redirect:http://localhost:8080/profile?message=%s", response.getBody());
+        }
         currentUserService.setLoggedUserName(username);
-        return "redirect:http://localhost:8080/profile?message=Username successfully changed";
+        return String.format("redirect:http://localhost:8080/profile?message=%s", response.getBody());
     }
 
     @PostMapping("profile/edit/password")
     public String editPassword(
-            @RequestParam("new-password") String newPassword, @RequestParam("old-password") String oldPassword) {
+            @RequestParam("new-password") String newPassword,
+            @RequestParam("old-password") String oldPassword,
+            @RequestParam("repeat-password") String repeatPassword) {
         var currentUserName = currentUserService.getCurrentUser();
         if (currentUserName.equals(currentUserService.getEmptyUser())) {
             return "redirect:http://localhost:8080/user-login?error=Log in to edit your profile";
+        }
+        if (!repeatPassword.equals(newPassword)) {
+            return String.format(
+                    "redirect:http://localhost:8080/profile/edit?error=%s",
+                    "Your new and repeated passwords don' match");
         }
         var encodedNewPassword = passwordEncoder.encode(newPassword);
         var responseBody = dbClient.updatePassword(encodedNewPassword, oldPassword, currentUserName)

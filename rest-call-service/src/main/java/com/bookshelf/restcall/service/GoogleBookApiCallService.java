@@ -1,5 +1,7 @@
 package com.bookshelf.restcall.service;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
 import com.bookshelf.restcall.dto.BookData;
 import com.bookshelf.restcall.dto.BooksResponse;
 import com.bookshelf.restcall.dto.VolumeInfo;
@@ -39,6 +41,12 @@ public class GoogleBookApiCallService {
         return result;
     }
 
+    public List<VolumeInfo> findBooksByQueryAuthor(String query) {
+        var result = this.findAllBooksByAuthor(query.replaceAll(SPACE, "+")).orElse(Collections.emptyList());
+        log.info("Found {} results", result.size());
+        return result;
+    }
+
     private Optional<List<VolumeInfo>> findBooksByTitle(String title) {
         var url = String.format(googleApiUrl + QUERY_PATTERN, googleToken, MAX_RESULTS, title);
         return getGoogleBooks(url);
@@ -46,6 +54,11 @@ public class GoogleBookApiCallService {
 
     private Optional<List<VolumeInfo>> findBooksByAuthor(String author) {
         var url = String.format(googleApiUrl + AUTHOR_QUERY_PATTERN, googleToken, MAX_RESULTS, author);
+        return getGoogleBooks(url);
+    }
+
+    private Optional<List<VolumeInfo>> findAllBooksByAuthor(String author) {
+        var url = String.format(googleApiUrl + AUTHOR_QUERY_PATTERN, googleToken, 40, author);
         return getGoogleBooks(url);
     }
 

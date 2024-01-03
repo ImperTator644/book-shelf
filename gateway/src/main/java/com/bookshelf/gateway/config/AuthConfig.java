@@ -38,13 +38,21 @@ public class AuthConfig {
         return http.csrf()
                 .disable()
                 .authorizeExchange()
-                //                .pathMatchers("/auth/register", "/register", "/user-login", "/logged-user", "/",
-                // "/images/**",
-                // "/js/**", "/css/**")
-                //                .permitAll()
-                .anyExchange()
+                .pathMatchers(
+                        "/auth/register",
+                        "/register",
+                        "/user-login",
+                        "/logged-user/**",
+                        "/",
+                        "/book/**",
+                        "/search/**",
+                        "/images/**",
+                        "/js/**",
+                        "/css/**",
+                        "/fonts/**")
                 .permitAll()
-                //                .authenticated()
+                .anyExchange()
+                .authenticated()
                 .and()
                 .formLogin()
                 .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/") {

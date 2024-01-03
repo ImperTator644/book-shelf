@@ -19,4 +19,9 @@ public class BookSearchController {
     public List<VolumeInfo> findBooksByQuery(@RequestParam(value = "q") String query) {
         return googleBookApiCallService.findBooksByQuery(query);
     }
+
+    @GetMapping("/author")
+    public List<VolumeInfo> findBooksByAuthor(@RequestParam(value = "q") String query) {
+        return googleBookApiCallService.findBooksByQueryAuthor(query);
+    }
 }

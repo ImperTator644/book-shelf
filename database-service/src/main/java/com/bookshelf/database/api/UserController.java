@@ -1,5 +1,6 @@
 package com.bookshelf.database.api;
 
+import static org.springframework.http.HttpStatus.PARTIAL_CONTENT;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -49,6 +50,9 @@ public class UserController {
     @PostMapping("update/name")
     @Transactional
     public ResponseEntity<String> updateUsername(@RequestParam String newName, @RequestParam String oldname) {
+        if (this.getUserByUsername(newName) != null) {
+            return new ResponseEntity<>("Name already taken by another user", PARTIAL_CONTENT);
+        }
         userRepository.updateUsername(newName, oldname);
         return ok("User updated successfully");
     }
