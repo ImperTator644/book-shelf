@@ -4,6 +4,7 @@
         <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
         <link th:href="@{/css/books/book-overview.css}" rel="stylesheet">
         <link th:href="@{/css/books/rating-bar.css}" rel="stylesheet">
+        <link th:href="@{/css/books/book-details.css}" rel="stylesheet">
         <title>BookShelf | Opis książki</title>
     </head>
     <body th:with="loggedUser=@{__${@thymeleaf.getCurrentUserPesel()}__}, emptyUser=@{__${@thymeleaf.getEmptyUser()}__}">
@@ -12,60 +13,62 @@
 
             <div class="content mt-4 rounded">
                 <div class="book-description">
-                    <div class="rounded book-title" th:data-title="${book.getTitle()}">
-                        <h1 th:text="${book.getTitle()}"></h1>
-                    </div>
-                    <div class="book-authors">
-                        Author / Authors: <p th:text="${book.authors}"></p>
-                    </div>
-                    <div class="book-published-date">
-                        Release date: <p th:text="${book.publishedDate}"></p>
-                    </div>
-                    <div class="book-page-count">
-                        Number of pages: <p th:text="${book.pageCount}"></p>
-                    </div>
-                    <div class="book-language">
-                        Language: <p th:text="${book.language}"></p>
-                    </div>
-                    <div class="book-description-text">
-                        Description: <p th:text="${book.description}"></p>
-                    </div>
-                    <div class="book-user-rating">
-                        Average users' rating: <p th:text="${avgRating}"></p>
-                    </div>
-                    <h3>Your rating</h3>
-                    <div th:if="${loggedUser != emptyUser}" class="rating">
-                        <form id="rating" th:action="@{/book/rating}" method="post">
-                            <input type="radio" name="rating" id="rating-5" value="5"
-                                   th:checked="${currentRating == 5}"/>
-                            <label for="rating-5">★</label>
-                            <input type="radio" name="rating" id="rating-4" value="4"
-                                   th:checked="${currentRating == 4}"/>
-                            <label for="rating-4">★</label>
-                            <input type="radio" name="rating" id="rating-3" value="3"
-                                   th:checked="${currentRating == 3}"/>
-                            <label for="rating-3">★</label>
-                            <input type="radio" name="rating" id="rating-2" value="2"
-                                   th:checked="${currentRating == 2}"/>
-                            <label for="rating-2">★</label>
-                            <input type="radio" name="rating" id="rating-1" value="1"
-                                   th:checked="${currentRating == 1}"/>
-                            <label for="rating-1">★</label>
-                            <input type="hidden" name="book-id" th:value="${book.getId()}">
-                        </form>
-                        <button type="submit" form="rating" class="btn btn-warning"
-                                th:text="${currentRating != 0 ? 'Change your rating' : 'Rate this book'}">
-                        </button>
-                        <form class="mt-2" th:if="${currentRating != 0}" th:action="@{/book/rating/remove}"
-                              method="post">
-                            <input type="hidden" class="delete-rating" name="book-id" th:value="${book.getId()}">
-                            <input type="submit" class="btn btn-danger delete-rating" value="Delete rating">
-                        </form>
-                    </div>
-                    <div th:if="${loggedUser == emptyUser}">
-                        <a class="btn btn-warning" th:href="@{/user-login}">
-                            <i class="fa fa-sign-in" aria-hidden="true"></i> Log in to add your rating
-                        </a>
+                    <div class="book-details">
+                        <div class="rounded book-title" th:data-title="${book.getTitle()}">
+                            <h1 th:text="${book.getTitle()}"></h1>
+                        </div>
+                        <div class="book-authors mt-4">
+                            <h4>Author / Authors:</h4> <p th:text="${book.authors}"></p>
+                        </div>
+                        <div class="book-published-date">
+                            <h4>Release date:</h4> <p th:text="${book.publishedDate}"></p>
+                        </div>
+                        <div class="book-page-count">
+                            <h4>Number of pages:</h4> <p th:text="${book.pageCount}"></p>
+                        </div>
+                        <div class="book-language">
+                            <h4>Language:</h4> <p th:text="${book.language}"></p>
+                        </div>
+                        <div class="book-description-text">
+                            <h4>Description:</h4> <p th:text="${book.description}"></p>
+                        </div>
+                        <div class="book-user-rating">
+                            <h4>Average users' rating:</h4> <h1 th:text="${avgRating}"></h1>
+                        </div>
+                        <h3 class="mt-2">Your rating</h3>
+                        <div th:if="${loggedUser != emptyUser}" class="rating">
+                            <form id="rating" th:action="@{/book/rating}" method="post">
+                                <input type="radio" name="rating" id="rating-5" value="5"
+                                       th:checked="${currentRating == 5}"/>
+                                <label for="rating-5">★</label>
+                                <input type="radio" name="rating" id="rating-4" value="4"
+                                       th:checked="${currentRating == 4}"/>
+                                <label for="rating-4">★</label>
+                                <input type="radio" name="rating" id="rating-3" value="3"
+                                       th:checked="${currentRating == 3}"/>
+                                <label for="rating-3">★</label>
+                                <input type="radio" name="rating" id="rating-2" value="2"
+                                       th:checked="${currentRating == 2}"/>
+                                <label for="rating-2">★</label>
+                                <input type="radio" name="rating" id="rating-1" value="1"
+                                       th:checked="${currentRating == 1}"/>
+                                <label for="rating-1">★</label>
+                                <input type="hidden" name="book-id" th:value="${book.getId()}">
+                            </form>
+                            <button type="submit" form="rating" class="btn btn-warning"
+                                    th:text="${currentRating != 0 ? 'Change your rating' : 'Rate this book'}">
+                            </button>
+                            <form class="mt-2" th:if="${currentRating != 0}" th:action="@{/book/rating/remove}"
+                                  method="post">
+                                <input type="hidden" class="delete-rating" name="book-id" th:value="${book.getId()}">
+                                <input type="submit" class="btn btn-danger delete-rating" value="Delete rating">
+                            </form>
+                        </div>
+                        <div th:if="${loggedUser == emptyUser}">
+                            <a class="btn btn-warning" th:href="@{/user-login}">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i> Log in to add your rating
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="book-cover">

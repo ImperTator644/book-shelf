@@ -9,6 +9,10 @@
 
             <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
 
+            <div class="content rounded">
+                <h1 th:if="${currentUser != null}">Welcome <span th:text="${currentUser}" th:remove="tag"></span>!</h1>
+            </div>
+
         </div>
     </body>
 </html>
