@@ -2,12 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <div th:replace="fragment/general.html :: headerFragment" th:remove="tag"></div>
-        <title>BookShelf | Opis książki</title>
+        <link th:href="@{/css/main-page.css}" rel="stylesheet">
+        <title>BookShelf | Main page</title>
     </head>
     <body>
         <div class="container mt-2">
 
             <div th:replace="fragment/general.html :: navigation-bar" id="navigation"></div>
+
+            <div class="content rounded">
+                <h1 class="mb-5" th:if="${currentUser != null}">Welcome <span th:text="${currentUser}" th:remove="tag"></span>!</h1>
+
+                <img style="width: 60%; display: block; margin-left: auto; margin-right: auto;" th:src="@{/images/book-shelf-logo/png/logo-no-background.png}" alt="Book Shelf Logo">
+
+                <h3 class="mb-4 mt-4">Top-rated books:</h3>
+                <div th:if="${topRatings != null}">
+                    <div class="recomendations-wrapper">
+
+                    <span th:each="book: ${topRatings}" th:remove="tag">
+
+                        <a class='box' th:href="@{/book/{id}(id=*{book.getBook().getId()})}">
+                            <div>
+                                <div class="left">
+                                    <img th:src="*{book.getBook().getSmallThumbnail()}"
+                                         alt="">
+                                </div>
+                                <div class="right">
+                                    <div class="title" th:text="*{book.getBook().getTitle()}"></div>
+                                    <div class="author">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i><span
+                                            th:text="*{book.getBook().getAuthors()}">Authors</span>
+                                    </div>
+                                    <div class="rating">
+                                        <img th:src="@{/images/star.png}" alt="">
+                                        <span th:text="*{book.getAvgRating()}" th:remove="tag"></span>/5
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </span>
+
+                    </div>
+                </div>
+
+            </div>
 
         </div>
     </body>

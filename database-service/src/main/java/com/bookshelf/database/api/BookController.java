@@ -1,7 +1,6 @@
 package com.bookshelf.database.api;
 
-import static org.springframework.http.ResponseEntity.ok;
-
+import com.bookshelf.database.dto.BookAvgRatingDto;
 import com.bookshelf.database.dto.BookDTO;
 import com.bookshelf.database.model.Book;
 import com.bookshelf.database.model.UserBook;
@@ -9,10 +8,15 @@ import com.bookshelf.database.repository.BookRepository;
 import com.bookshelf.database.repository.UserBookRepository;
 import com.bookshelf.database.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @Tag(name = "book", description = "Book API")
@@ -71,5 +75,16 @@ public class BookController {
     public List<UserBook> getAllUsersBooks(@RequestParam String username) {
         var user = userRepository.findByUsername(username);
         return userBookRepository.findAllByUser(user);
+    }
+
+    @GetMapping("/top-rated")
+    public List<BookAvgRatingDto> getTopRatedBooks() {
+        var ratings = userBookRepository.findTop4RatingNumber();
+        var books = userBookRepository.findTop4RatingBooks();
+        List<BookAvgRatingDto> bookAvgRatingDtos = new LinkedList<>();
+        for (int i = 0; i < ratings.size(); i++) {
+            bookAvgRatingDtos.add(new BookAvgRatingDto(books.get(i), ratings.get(i)));
+        }
+        return bookAvgRatingDtos.stream().limit(4).collect(toList());
     }
 }

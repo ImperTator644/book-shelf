@@ -1,13 +1,11 @@
 package com.bookshelf.frontservice.client;
 
-import com.bookshelf.frontservice.dto.BookDto;
-import com.bookshelf.frontservice.dto.BookFromDB;
-import com.bookshelf.frontservice.dto.UserBookDto;
-import com.bookshelf.frontservice.dto.UserDTO;
-import java.util.List;
+import com.bookshelf.frontservice.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @FeignClient(name = "database-service")
 public interface DBClient {
@@ -41,4 +39,7 @@ public interface DBClient {
 
     @GetMapping("api/database/book/users/all")
     List<UserBookDto> getAllUsersBooks(@RequestParam String username);
+
+    @GetMapping("api/database/book/top-rated")
+    List<BookAvgRatingDto> getTopRatedBooks();
 }
