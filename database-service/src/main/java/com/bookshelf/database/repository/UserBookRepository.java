@@ -20,4 +20,10 @@ public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
     @Modifying
     @Query("UPDATE UserBook u set u.rating = :newRating where u.id = :userBookID")
     void updateRating(@Param("newRating") int newRating, @Param("userBookID") UUID userBookID);
+
+    @Query(value = "SELECT avg(u.rating) as rating FROM UserBook u GROUP BY u.book ORDER BY rating DESC")
+    List<Double> findTop4RatingNumber();
+
+    @Query(value = "SELECT u.book FROM UserBook u GROUP BY u.book ORDER BY avg(u.rating) DESC")
+    List<Book> findTop4RatingBooks();
 }
