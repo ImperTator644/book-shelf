@@ -56,7 +56,8 @@
                         <button type="submit" form="rating" class="btn btn-warning"
                                 th:text="${currentRating != 0 ? 'Change your rating' : 'Rate this book'}">
                         </button>
-                        <form class="mt-2" th:if="${currentRating != 0}" th:action="@{/book/rating/remove}" method="post">
+                        <form class="mt-2" th:if="${currentRating != 0}" th:action="@{/book/rating/remove}"
+                              method="post">
                             <input type="hidden" class="delete-rating" name="book-id" th:value="${book.getId()}">
                             <input type="submit" class="btn btn-danger delete-rating" value="Delete rating">
                         </form>
@@ -71,7 +72,30 @@
                     <img id="book-cover-img" th:src="${book.getThumbnail()}" alt="Alternative text">
                 </div>
             </div>
-
+            <div class="content content mt-4 rounded ">
+                <h3 class="mb-4">More books from this author</h3>
+                <div th:if="${booksFromAuthor != null}">
+                    <form class="recomendations-wrapper" th:action="@{/book}" th:method="post">
+                        <button th:each="bookFromAuthor: ${booksFromAuthor}" class='box'
+                                th:name="bookToDisplay"
+                                th:value="${bookFromAuthor.asJson()}" type="submit">
+                            <div>
+                                <div class="left">
+                                    <img th:src="*{bookFromAuthor.getSmallThumbnail()}"
+                                         alt="">
+                                </div>
+                                <div class="right">
+                                    <div class="title" th:text="*{bookFromAuthor.getTitle()}"></div>
+                                    <div class="author">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i><span
+                                            th:text="*{bookFromAuthor.getAuthors()}">Authors</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>

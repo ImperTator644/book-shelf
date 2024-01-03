@@ -1,6 +1,7 @@
 package com.bookshelf.frontservice.controller;
 
 import com.bookshelf.frontservice.client.DBClient;
+import com.bookshelf.frontservice.client.RestCallClient;
 import com.bookshelf.frontservice.dto.BookDto;
 import com.bookshelf.frontservice.service.CurrentUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("book")
 @Slf4j
@@ -20,6 +24,7 @@ public class BookController {
     private final ObjectMapper objectMapper;
     private final DBClient dbClient;
     private final CurrentUserService currentUser;
+    private final RestCallClient restCallClient;
 
     @GetMapping
     public String redirectToMainPage() {
@@ -32,6 +37,12 @@ public class BookController {
         var avgRating = dbClient.getBookAvgRating(bookID).getBody();
         modelMap.put("book", bookFromDB);
         modelMap.put("avgRating", avgRating);
+        var booksFromAuthor = restCallClient.findBooksByAuthor(bookFromDB.getAuthors());
+        Collections.shuffle(booksFromAuthor);
+        if(booksFromAuthor.size() > 3) {
+            booksFromAuthor = booksFromAuthor.stream().limit(4).collect(Collectors.toList());
+            modelMap.put("booksFromAuthor", booksFromAuthor);
+        }
         if (currentUser.getCurrentUser().equals(currentUser.getEmptyUser())) {
             return "books/book-overview";
         }

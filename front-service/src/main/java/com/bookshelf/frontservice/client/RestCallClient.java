@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface RestCallClient {
     @GetMapping(value = "/api/book-search")
     List<BookDto> findBooksByQuery(@RequestParam String q);
+
+    @GetMapping(value = "/api/book-search/author")
+    List<BookDto> findBooksByAuthor(@RequestParam String q);
 }
