@@ -6,14 +6,13 @@ import com.bookshelf.frontservice.dto.BookDto;
 import com.bookshelf.frontservice.service.CurrentUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collections;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("book")
@@ -39,7 +38,7 @@ public class BookController {
         modelMap.put("avgRating", avgRating);
         var booksFromAuthor = restCallClient.findBooksByAuthor(bookFromDB.getAuthors());
         Collections.shuffle(booksFromAuthor);
-        if(booksFromAuthor.size() > 3) {
+        if (booksFromAuthor.size() > 3) {
             booksFromAuthor = booksFromAuthor.stream().limit(4).collect(Collectors.toList());
             modelMap.put("booksFromAuthor", booksFromAuthor);
         }

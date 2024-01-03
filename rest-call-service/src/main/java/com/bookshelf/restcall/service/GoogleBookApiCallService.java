@@ -1,5 +1,7 @@
 package com.bookshelf.restcall.service;
 
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
 import com.bookshelf.restcall.dto.BookData;
 import com.bookshelf.restcall.dto.BooksResponse;
 import com.bookshelf.restcall.dto.VolumeInfo;
@@ -11,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import static org.apache.commons.lang3.StringUtils.SPACE;
 
 @Service
 @Slf4j
