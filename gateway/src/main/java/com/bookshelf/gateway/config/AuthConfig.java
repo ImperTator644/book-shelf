@@ -35,48 +35,45 @@ public class AuthConfig {
 
     @Bean
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
-        return http.csrf()
-                .disable()
-                .authorizeExchange()
-                .pathMatchers(
-                        "/auth/register",
-                        "/register",
-                        "/user-login",
-                        "/logged-user/**",
-                        "/",
-                        "/book/**",
-                        "/search/**",
-                        "/images/**",
-                        "/js/**",
-                        "/css/**",
-                        "/fonts/**")
-                .permitAll()
-                .anyExchange()
-                .authenticated()
-                .and()
-                .formLogin()
-                .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/") {
-                    @Override
-                    public Mono<Void> onAuthenticationSuccess(
+        return http.csrf(csrf -> csrf
+                        .disable()
+                        .authorizeExchange(exchange -> exchange
+                                .pathMatchers(
+                                        "/auth/register",
+                                        "/register",
+                                        "/user-login",
+                                        "/logged-user/**",
+                                        "/",
+                                        "/book/**",
+                                        "/search/**",
+                                        "/images/**",
+                                        "/js/**",
+                                        "/css/**",
+                                        "/fonts/**")
+                                .permitAll()
+                                .anyExchange()
+                                .authenticated()))
+                .formLogin(login -> login
+                        .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/") {
+                            @Override
+                            public Mono<Void> onAuthenticationSuccess(
                             WebFilterExchange webFilterExchange, Authentication authentication) {
-                        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                        currentUser.setUserName(userDetails.getUsername());
-                        return super.onAuthenticationSuccess(webFilterExchange, authentication);
-                    }
-                })
-                .authenticationFailureHandler(
-                        new RedirectServerAuthenticationFailureHandler("/user-login?error=Invalid%20credentials"))
-                .and()
-                .logout()
-                .logoutSuccessHandler(new RedirectServerLogoutSuccessHandler() {
-                    @Override
-                    public Mono<Void> onLogoutSuccess(WebFilterExchange exchange, Authentication authentication) {
-                        currentUser.setUserName(emptyUser);
-                        this.setLogoutSuccessUrl(URI.create("/"));
-                        return super.onLogoutSuccess(exchange, authentication);
-                    }
-                })
-                .and()
+                                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                                currentUser.setUserName(userDetails.getUsername());
+                                return super.onAuthenticationSuccess(webFilterExchange, authentication);
+                            }
+                        })
+                        .authenticationFailureHandler(
+                                new RedirectServerAuthenticationFailureHandler("/user-login?error=Invalid%20credentials")))
+                .logout(logout -> logout
+                        .logoutSuccessHandler(new RedirectServerLogoutSuccessHandler() {
+                            @Override
+                            public Mono<Void> onLogoutSuccess(WebFilterExchange exchange, Authentication authentication) {
+                                currentUser.setUserName(emptyUser);
+                                this.setLogoutSuccessUrl(URI.create("/"));
+                                return super.onLogoutSuccess(exchange, authentication);
+                            }
+                        }))
                 .build();
     }
 

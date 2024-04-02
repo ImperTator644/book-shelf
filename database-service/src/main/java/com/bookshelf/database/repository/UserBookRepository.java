@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface UserBookRepository extends JpaRepository<UserBook, Integer> {
+public interface UserBookRepository extends JpaRepository<UserBook, UUID> {
     UserBook findUserBookByUserAndBook(User user, Book book);
 
     List<UserBook> findAllByBook(Book book);
